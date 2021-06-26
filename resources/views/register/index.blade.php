@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 
         <!-- CSS Files -->
-        
+
         <link href="{{ asset('register/assets/css/bootstrap.min.css') }}" rel="stylesheet" />
         <!--<link href="assets/css/material-kit.min.css" rel="stylesheet" />-->
         <link href="{{ asset('register/assets/css/material-bootstrap-wizard.css') }}" rel="stylesheet" />
@@ -32,12 +32,12 @@
 
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        
+
 
         <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>-->
 
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
-
+        <link href="https://cdnjs.com/libraries/jquery.mask">
     </head>
     <body>
         <div>
@@ -45,7 +45,7 @@
             <a class="btn btn-danger" href="/deconnexion" style="font-size: 14px">Se deconnecter</a>
         </div>
         <div class="image-container set-full-height" style="background-image: url('{{ asset('register/assets/img/croixRouge.jpg') }}')">
-            
+
             <!--   Creative Tim Branding   -->
             <a href="http://creative-tim.com">
                 <div class="logo-container">
@@ -101,7 +101,7 @@
                                         <div class="tab-pane" id="etatCivil">
                                             <div class="row">
                                                 <!--<h4 class="info-text"> Let's start with the basic information (with validation)</h4>-->
-                                                
+
                                                 <div class="col-sm-4">
                                                     <div class="picture" style="height: 150px;width: 150px">
                                                             <img src="assets/img/default-avatar.png" height="150px" width="100%" class="picture-src" id="wizardPicturePreview" title=""/>
@@ -128,7 +128,7 @@
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div class="form-group">
-                                                        
+
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
@@ -157,7 +157,7 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        
+
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
@@ -305,7 +305,7 @@
                                             <div class="row">
                                                 <!--<h4 class="info-text"> Let's start with the basic information (with validation)</h4>-->
                                                 <div class="col-sm-4"></div>
-                                                
+
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label">Groupe sanguin <!--<small class="text-danger">*</small>--></label>
@@ -691,7 +691,7 @@
 
             <div class="footer">
                 <div class="container text-center">
-                    Made with <i class="fa fa-heart heart"></i> by <a href="http://www.horebline.com">HOREB LINE</a>. 
+                    Made with <i class="fa fa-heart heart"></i> by <a href="http://www.horebline.com">HOREB LINE</a>.
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Hôte :                        127.0.0.1
--- Version du serveur:           10.4.13-MariaDB - mariadb.org binary distribution
+-- Version du serveur:           8.0.21 - MySQL Community Server - GPL
 -- SE du serveur:                Win64
 -- HeidiSQL Version:             11.0.0.5919
 -- --------------------------------------------------------
@@ -11,41 +11,31 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-
--- Listage de la structure de la base pour croixrouge2021
-DROP DATABASE IF EXISTS `croixrouge2021`;
-CREATE DATABASE IF NOT EXISTS `croixrouge2021` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `croixrouge2021`;
-
 -- Listage de la structure de la table croixrouge2021. affection
-DROP TABLE IF EXISTS `affection`;
 CREATE TABLE IF NOT EXISTS `affection` (
-  `idaffection` int(11) NOT NULL AUTO_INCREMENT,
+  `idaffection` int NOT NULL AUTO_INCREMENT,
   `affection_libelle` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`idaffection`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.affection : ~3 rows (environ)
-DELETE FROM `affection`;
 /*!40000 ALTER TABLE `affection` DISABLE KEYS */;
-INSERT INTO `affection` (`idaffection`, `affection_libelle`) VALUES
+REPLACE INTO `affection` (`idaffection`, `affection_libelle`) VALUES
 	(1, 'SIDA'),
 	(2, 'ZONA'),
 	(3, 'TUBERCULOSE');
 /*!40000 ALTER TABLE `affection` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. categoriepermis
-DROP TABLE IF EXISTS `categoriepermis`;
 CREATE TABLE IF NOT EXISTS `categoriepermis` (
-  `idCategorie` int(11) NOT NULL AUTO_INCREMENT,
-  `categorie_libelle` longtext DEFAULT NULL,
+  `idCategorie` int NOT NULL AUTO_INCREMENT,
+  `categorie_libelle` longtext,
   PRIMARY KEY (`idCategorie`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.categoriepermis : ~6 rows (environ)
-DELETE FROM `categoriepermis`;
 /*!40000 ALTER TABLE `categoriepermis` DISABLE KEYS */;
-INSERT INTO `categoriepermis` (`idCategorie`, `categorie_libelle`) VALUES
+REPLACE INTO `categoriepermis` (`idCategorie`, `categorie_libelle`) VALUES
 	(1, 'A'),
 	(2, 'B'),
 	(3, 'C'),
@@ -55,13 +45,14 @@ INSERT INTO `categoriepermis` (`idCategorie`, `categorie_libelle`) VALUES
 /*!40000 ALTER TABLE `categoriepermis` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. comite
-DROP TABLE IF EXISTS `comite`;
 CREATE TABLE IF NOT EXISTS `comite` (
-  `idcomite` int(11) NOT NULL AUTO_INCREMENT,
+  `idcomite` int NOT NULL AUTO_INCREMENT,
   `comite_libelle` varchar(150) DEFAULT NULL,
   `comite_code` varchar(150) DEFAULT NULL,
-  `comite_ville` int(11) DEFAULT NULL,
-  `comite_commune` int(11) DEFAULT NULL,
+  `comite_ville` int DEFAULT NULL,
+  `comite_commune` int DEFAULT NULL,
+  `activeLimite` enum('OUI','NON') CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT 'NON',
+  `comiteNbreLimite` int DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`idcomite`),
@@ -70,126 +61,123 @@ CREATE TABLE IF NOT EXISTS `comite` (
   KEY `FK_comite_commune` (`comite_commune`),
   CONSTRAINT `FK_comite_commune` FOREIGN KEY (`comite_commune`) REFERENCES `commune` (`idcommune`) ON UPDATE CASCADE,
   CONSTRAINT `FK_comite_villes` FOREIGN KEY (`comite_ville`) REFERENCES `villes` (`VIL_IDENTIFIANT`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 
--- Listage des données de la table croixrouge2021.comite : ~71 rows (environ)
-DELETE FROM `comite`;
+-- Listage des données de la table croixrouge2021.comite : ~73 rows (environ)
 /*!40000 ALTER TABLE `comite` DISABLE KEYS */;
-INSERT INTO `comite` (`idcomite`, `comite_libelle`, `comite_code`, `comite_ville`, `comite_commune`, `created_at`, `updated_at`) VALUES
-	(1, 'ASSINI MAFIA', NULL, NULL, NULL, NULL, NULL),
-	(2, 'ATTECOUBE', NULL, NULL, NULL, NULL, NULL),
-	(3, 'BOUNA', NULL, NULL, NULL, NULL, NULL),
-	(4, 'ISSIA', NULL, NULL, NULL, NULL, NULL),
-	(5, 'KOUIBLY', NULL, NULL, NULL, NULL, NULL),
-	(6, 'MINIGNAN', NULL, NULL, NULL, NULL, NULL),
-	(7, 'NOE', NULL, NULL, NULL, NULL, NULL),
-	(8, 'PEHE', NULL, NULL, NULL, NULL, NULL),
-	(9, 'SASSANDRA', NULL, NULL, NULL, NULL, NULL),
-	(10, 'SEMIEN', NULL, NULL, NULL, NULL, NULL),
-	(11, 'SONGON', NULL, NULL, NULL, NULL, NULL),
-	(12, 'ZAGNE', NULL, NULL, NULL, NULL, NULL),
-	(13, 'ZOUKOUGBEU', NULL, NULL, NULL, NULL, NULL),
-	(14, 'ABENGOUROU', NULL, NULL, NULL, NULL, NULL),
-	(15, 'ABOBO', NULL, NULL, NULL, NULL, NULL),
-	(16, 'ABOISSO', NULL, NULL, NULL, NULL, NULL),
-	(17, 'ANYAMA', NULL, NULL, NULL, NULL, NULL),
-	(19, 'BOUNDIALI', NULL, NULL, NULL, NULL, NULL),
-	(20, 'DUEKOUE', NULL, NULL, NULL, NULL, NULL),
-	(21, 'GRABO', NULL, NULL, NULL, NULL, NULL),
-	(22, 'LAKOTA', NULL, NULL, NULL, NULL, NULL),
-	(23, 'MAN', NULL, NULL, NULL, NULL, NULL),
-	(24, 'TABOU', NULL, NULL, NULL, NULL, NULL),
-	(25, 'TIASSALE', NULL, NULL, NULL, NULL, NULL),
-	(27, 'AGBOVILLE', NULL, NULL, NULL, NULL, NULL),
-	(28, 'ALEPE', NULL, NULL, NULL, NULL, NULL),
-	(29, 'AYAME', NULL, NULL, NULL, NULL, NULL),
-	(30, 'BIN-HOUYE', NULL, NULL, NULL, NULL, NULL),
-	(31, 'BLOLEQUIN', NULL, NULL, NULL, NULL, NULL),
-	(32, 'BONGOUANOU', NULL, NULL, NULL, NULL, NULL),
-	(33, 'BOUAFLE', NULL, NULL, NULL, NULL, NULL),
-	(34, 'BOUAKE', NULL, NULL, NULL, NULL, NULL),
-	(35, 'COCODY', NULL, NULL, NULL, NULL, NULL),
-	(36, 'DABOU', NULL, NULL, NULL, NULL, NULL),
-	(37, 'DALOA', NULL, NULL, NULL, NULL, NULL),
-	(38, 'DANANE', NULL, NULL, NULL, NULL, NULL),
-	(39, 'DIMBOKRO', NULL, NULL, NULL, NULL, NULL),
-	(40, 'DIVO', NULL, NULL, NULL, NULL, NULL),
-	(43, 'GRAND -LAHOU', NULL, NULL, NULL, NULL, NULL),
-	(44, 'GRAND-BASSAM', NULL, NULL, NULL, NULL, NULL),
-	(45, 'GUIBEROUA', NULL, NULL, NULL, NULL, NULL),
-	(46, 'GUIGLO', NULL, NULL, NULL, NULL, NULL),
-	(47, 'JACQUEVILLE', NULL, NULL, NULL, NULL, NULL),
-	(48, 'KORHOGO', NULL, NULL, NULL, NULL, NULL),
-	(49, 'KOUMASSI', NULL, NULL, NULL, NULL, NULL),
-	(50, 'ODIENNE', NULL, NULL, NULL, NULL, NULL),
-	(51, 'OUME', NULL, NULL, NULL, NULL, NULL),
-	(52, 'PORT -BOUET', NULL, NULL, NULL, NULL, NULL),
-	(53, 'SAN-PEDRO', NULL, NULL, NULL, NULL, NULL),
-	(54, 'SIPILOU', NULL, NULL, NULL, NULL, NULL),
-	(55, 'SOUBRE', NULL, NULL, NULL, NULL, NULL),
-	(56, 'TAABO', NULL, NULL, NULL, NULL, NULL),
-	(57, 'TAI', NULL, NULL, NULL, NULL, NULL),
-	(58, 'TOULEPLEU', NULL, NULL, NULL, NULL, NULL),
-	(59, 'TOUMODI', NULL, NULL, NULL, NULL, NULL),
-	(61, 'YAMOUSSOUKRO', NULL, NULL, NULL, NULL, NULL),
-	(62, 'YOPOUGON', NULL, NULL, NULL, NULL, NULL),
-	(63, 'ZOUAN -HOUNIEN', NULL, NULL, NULL, NULL, NULL),
-	(64, 'BIA', NULL, 3, 24, '2020-04-26 12:49:14', '2020-04-26 12:49:14'),
-	(65, 'ADJAME', NULL, 1, 2, '2020-04-26 12:53:51', '2020-04-26 12:53:51'),
-	(66, 'TREICHVILLE', NULL, 1, 12, '2020-04-26 13:00:05', '2020-04-26 13:00:05'),
-	(70, 'BONDOUKOU', NULL, 1014, 1035, '2020-04-26 14:07:54', '2020-04-26 14:07:54'),
-	(71, 'GAGNOA', NULL, 229, 250, '2020-04-26 14:47:47', '2020-04-26 14:47:47'),
-	(72, 'KOTRO', NULL, 317, 338, '2020-04-26 15:00:04', '2020-04-26 15:00:04'),
-	(73, 'LARABIA', NULL, 400, 421, '2020-04-26 15:09:36', '2020-04-26 15:09:36'),
-	(74, 'GLONGOUIN', NULL, 258, 279, '2020-04-26 15:13:20', '2020-04-26 15:13:20'),
-	(75, 'SAIOUA', NULL, 511, 532, '2020-04-26 19:36:58', '2020-04-26 19:36:58'),
-	(76, 'FERKESSEDOUGOU', NULL, 1207, 1228, '2020-04-26 19:45:04', '2020-04-26 19:45:04'),
-	(77, 'TINGRELA', NULL, 1140, 1161, '2020-04-27 06:04:32', '2020-04-27 06:04:32'),
-	(78, 'YROZON', NULL, 610, 631, '2020-08-21 12:52:09', '2020-08-21 12:52:09'),
-	(79, 'BINGERVILLE', NULL, 4, 5, '2020-10-01 10:01:31', '2020-10-01 10:01:32'),
-	(80, 'CL ABENGOUROU', 'C34', 2, 23, '2020-12-10 07:31:29', '2020-12-10 07:31:29');
+REPLACE INTO `comite` (`idcomite`, `comite_libelle`, `comite_code`, `comite_ville`, `comite_commune`, `activeLimite`, `comiteNbreLimite`, `created_at`, `updated_at`) VALUES
+	(1, 'ASSINI MAFIA', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(2, 'ATTECOUBE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, 'BOUNA', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(4, 'ISSIA', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(5, 'KOUIBLY', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(6, 'MINIGNAN', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(7, 'NOE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(8, 'PEHE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(9, 'SASSANDRA', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(10, 'SEMIEN', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(11, 'SONGON', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(12, 'ZAGNE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(13, 'ZOUKOUGBEU', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(14, 'ABENGOUROU', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(15, 'ABOBO', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(16, 'ABOISSO', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(17, 'ANYAMA', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(19, 'BOUNDIALI', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(20, 'DUEKOUE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(21, 'GRABO', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(22, 'LAKOTA', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(23, 'MAN', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(24, 'TABOU', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(25, 'TIASSALE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(27, 'AGBOVILLE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(28, 'ALEPE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(29, 'AYAME', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(30, 'BIN-HOUYE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(31, 'BLOLEQUIN', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(32, 'BONGOUANOU', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(33, 'BOUAFLE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(34, 'BOUAKE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(35, 'COCODY', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(36, 'DABOU', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(37, 'DALOA', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(38, 'DANANE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(39, 'DIMBOKRO', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(40, 'DIVO', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(43, 'GRAND -LAHOU', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(44, 'GRAND-BASSAM', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(45, 'GUIBEROUA', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(46, 'GUIGLO', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(47, 'JACQUEVILLE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(48, 'KORHOGO', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(49, 'KOUMASSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(50, 'ODIENNE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(51, 'OUME', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(52, 'PORT -BOUET', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(53, 'SAN-PEDRO', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(54, 'SIPILOU', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(55, 'SOUBRE', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(56, 'TAABO', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(57, 'TAI', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(58, 'TOULEPLEU', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(59, 'TOUMODI', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(61, 'YAMOUSSOUKRO', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(62, 'YOPOUGON', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(63, 'ZOUAN -HOUNIEN', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(64, 'BIA', NULL, 3, 24, NULL, NULL, '2020-04-26 12:49:14', '2020-04-26 12:49:14'),
+	(65, 'ADJAME', NULL, 1, 2, NULL, NULL, '2020-04-26 12:53:51', '2020-04-26 12:53:51'),
+	(66, 'TREICHVILLE', NULL, 1, 12, NULL, NULL, '2020-04-26 13:00:05', '2020-04-26 13:00:05'),
+	(70, 'BONDOUKOU', NULL, 1014, 1035, NULL, NULL, '2020-04-26 14:07:54', '2020-04-26 14:07:54'),
+	(71, 'GAGNOA', NULL, 229, 250, NULL, NULL, '2020-04-26 14:47:47', '2020-04-26 14:47:47'),
+	(72, 'KOTRO', NULL, 317, 338, NULL, NULL, '2020-04-26 15:00:04', '2020-04-26 15:00:04'),
+	(73, 'LARABIA', NULL, 400, 421, NULL, NULL, '2020-04-26 15:09:36', '2020-04-26 15:09:36'),
+	(74, 'GLONGOUIN', NULL, 258, 279, NULL, NULL, '2020-04-26 15:13:20', '2020-04-26 15:13:20'),
+	(75, 'SAIOUA', NULL, 511, 532, NULL, NULL, '2020-04-26 19:36:58', '2020-04-26 19:36:58'),
+	(76, 'FERKESSEDOUGOU', NULL, 1207, 1228, NULL, NULL, '2020-04-26 19:45:04', '2020-04-26 19:45:04'),
+	(77, 'TINGRELA', NULL, 1140, 1161, NULL, NULL, '2020-04-27 06:04:32', '2020-04-27 06:04:32'),
+	(78, 'YROZON', NULL, 610, 631, NULL, NULL, '2020-08-21 12:52:09', '2020-08-21 12:52:09'),
+	(79, 'BINGERVILLE', NULL, 4, 5, NULL, NULL, '2020-10-01 10:01:31', '2020-10-01 10:01:32'),
+	(80, 'CL ABENGOUROU', 'C34', 2, 23, NULL, NULL, '2020-12-10 07:31:29', '2020-12-10 07:31:29'),
+	(81, 'comité de tingrela', 'C54', 1, 150, NULL, NULL, '2021-06-17 14:36:24', '2021-06-17 14:36:24'),
+	(84, 'comite Assinie', 'C34', 63, 84, 'OUI', 96, '2021-06-17 15:01:11', '2021-06-17 15:01:11');
 /*!40000 ALTER TABLE `comite` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. comite_has_personne
-DROP TABLE IF EXISTS `comite_has_personne`;
 CREATE TABLE IF NOT EXISTS `comite_has_personne` (
-  `idComitePersonne` int(11) NOT NULL AUTO_INCREMENT,
-  `comite_idcomite` int(11) NOT NULL,
+  `idComitePersonne` int NOT NULL AUTO_INCREMENT,
+  `comite_idcomite` int NOT NULL,
   `personneImmat` varchar(150) NOT NULL DEFAULT '',
   `comite_date_ENTREE` date NOT NULL,
   `comite_date_SORTIE` date DEFAULT NULL,
-  `comite_topActuel` int(11) DEFAULT 1 COMMENT 'la colunne qui permet de savoir si c''est le comité actuel. \n1 pour actuel \n0 sinon',
+  `comite_topActuel` int DEFAULT '1' COMMENT 'la colunne qui permet de savoir si c''est le comité actuel. \n1 pour actuel \n0 sinon',
   PRIMARY KEY (`comite_idcomite`,`personneImmat`),
   KEY `fk_comite_has_personne_personne1_idx` (`personneImmat`),
   KEY `fk_comite_has_personne_comite1_idx` (`comite_idcomite`),
   KEY `idComitePersonne` (`idComitePersonne`),
-  CONSTRAINT `FK_comite_has_personne_personne` FOREIGN KEY (`personneImmat`) REFERENCES `personne` (`personne_immat`) ON UPDATE NO ACTION,
-  CONSTRAINT `fk_comite_has_personne_comite1` FOREIGN KEY (`comite_idcomite`) REFERENCES `comite` (`idcomite`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_comite_has_personne_comite1` FOREIGN KEY (`comite_idcomite`) REFERENCES `comite` (`idcomite`),
+  CONSTRAINT `FK_comite_has_personne_personne` FOREIGN KEY (`personneImmat`) REFERENCES `personne` (`personne_immat`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.comite_has_personne : ~0 rows (environ)
-DELETE FROM `comite_has_personne`;
 /*!40000 ALTER TABLE `comite_has_personne` DISABLE KEYS */;
 /*!40000 ALTER TABLE `comite_has_personne` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. commune
-DROP TABLE IF EXISTS `commune`;
 CREATE TABLE IF NOT EXISTS `commune` (
-  `idcommune` int(11) NOT NULL AUTO_INCREMENT,
+  `idcommune` int NOT NULL AUTO_INCREMENT,
   `commune_libelle` varchar(500) DEFAULT NULL,
   `PAYS_CODE` varchar(50) DEFAULT NULL,
-  `VIL_IDENTIFIANT` int(10) DEFAULT NULL,
-  `communeTopVigueur` int(10) DEFAULT NULL,
+  `VIL_IDENTIFIANT` int DEFAULT NULL,
+  `communeTopVigueur` int DEFAULT NULL,
   PRIMARY KEY (`idcommune`),
   KEY `idcommune` (`idcommune`),
   KEY `FK_commune_villes` (`VIL_IDENTIFIANT`),
   CONSTRAINT `FK_commune_villes` FOREIGN KEY (`VIL_IDENTIFIANT`) REFERENCES `villes` (`VIL_IDENTIFIANT`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1264 DEFAULT CHARSET=utf8;
 
--- Listage des données de la table croixrouge2021.commune : ~1 262 rows (environ)
-DELETE FROM `commune`;
+-- Listage des données de la table croixrouge2021.commune : ~1 263 rows (environ)
 /*!40000 ALTER TABLE `commune` DISABLE KEYS */;
-INSERT INTO `commune` (`idcommune`, `commune_libelle`, `PAYS_CODE`, `VIL_IDENTIFIANT`, `communeTopVigueur`) VALUES
+REPLACE INTO `commune` (`idcommune`, `commune_libelle`, `PAYS_CODE`, `VIL_IDENTIFIANT`, `communeTopVigueur`) VALUES
 	(0, 'AUTRE COMMUNE', 'CIV', 1, 0),
 	(1, 'Abobo', 'CIV', 1, 0),
 	(2, 'Adjamé', 'CIV', 1, 0),
@@ -1456,17 +1444,15 @@ INSERT INTO `commune` (`idcommune`, `commune_libelle`, `PAYS_CODE`, `VIL_IDENTIF
 /*!40000 ALTER TABLE `commune` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. continent
-DROP TABLE IF EXISTS `continent`;
 CREATE TABLE IF NOT EXISTS `continent` (
-  `CONTINENT_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `CONTINENT_ID` int NOT NULL AUTO_INCREMENT,
   `CONTINENT_NOM` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`CONTINENT_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.continent : ~5 rows (environ)
-DELETE FROM `continent`;
 /*!40000 ALTER TABLE `continent` DISABLE KEYS */;
-INSERT INTO `continent` (`CONTINENT_ID`, `CONTINENT_NOM`) VALUES
+REPLACE INTO `continent` (`CONTINENT_ID`, `CONTINENT_NOM`) VALUES
 	(1, 'AFRIQUE'),
 	(2, 'AMERIQUE'),
 	(3, 'EUROPE'),
@@ -1475,36 +1461,32 @@ INSERT INTO `continent` (`CONTINENT_ID`, `CONTINENT_NOM`) VALUES
 /*!40000 ALTER TABLE `continent` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. correspondance_fiche_qrcode
-DROP TABLE IF EXISTS `correspondance_fiche_qrcode`;
 CREATE TABLE IF NOT EXISTS `correspondance_fiche_qrcode` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `libelle_fiche_rename` varchar(500) DEFAULT NULL,
   `fiche_scaner` varchar(500) DEFAULT NULL,
-  `numeroMatricule` longtext DEFAULT NULL,
+  `numeroMatricule` longtext,
   `comiteLocal` varchar(500) DEFAULT NULL,
-  `top_generer` int(1) DEFAULT NULL,
+  `top_generer` int DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Listage des données de la table croixrouge2021.correspondance_fiche_qrcode : ~0 rows (environ)
-DELETE FROM `correspondance_fiche_qrcode`;
 /*!40000 ALTER TABLE `correspondance_fiche_qrcode` DISABLE KEYS */;
 /*!40000 ALTER TABLE `correspondance_fiche_qrcode` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. diplome
-DROP TABLE IF EXISTS `diplome`;
 CREATE TABLE IF NOT EXISTS `diplome` (
-  `iddiplome` int(11) NOT NULL AUTO_INCREMENT,
+  `iddiplome` int NOT NULL AUTO_INCREMENT,
   `diplome_libelle` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`iddiplome`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.diplome : ~9 rows (environ)
-DELETE FROM `diplome`;
 /*!40000 ALTER TABLE `diplome` DISABLE KEYS */;
-INSERT INTO `diplome` (`iddiplome`, `diplome_libelle`) VALUES
+REPLACE INTO `diplome` (`iddiplome`, `diplome_libelle`) VALUES
 	(1, 'CEPE'),
 	(2, 'BEPC'),
 	(3, 'BAC'),
@@ -1517,34 +1499,30 @@ INSERT INTO `diplome` (`iddiplome`, `diplome_libelle`) VALUES
 /*!40000 ALTER TABLE `diplome` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. failed_jobs
-DROP TABLE IF EXISTS `failed_jobs`;
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `connection` text NOT NULL,
   `queue` text NOT NULL,
   `payload` longtext NOT NULL,
   `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.failed_jobs : ~0 rows (environ)
-DELETE FROM `failed_jobs`;
 /*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
 /*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. fonctioncr
-DROP TABLE IF EXISTS `fonctioncr`;
 CREATE TABLE IF NOT EXISTS `fonctioncr` (
-  `idfonctionCR` int(11) NOT NULL AUTO_INCREMENT,
+  `idfonctionCR` int NOT NULL AUTO_INCREMENT,
   `fonctionCR_libelle` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`idfonctionCR`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.fonctioncr : ~4 rows (environ)
-DELETE FROM `fonctioncr`;
 /*!40000 ALTER TABLE `fonctioncr` DISABLE KEYS */;
-INSERT INTO `fonctioncr` (`idfonctionCR`, `fonctionCR_libelle`) VALUES
+REPLACE INTO `fonctioncr` (`idfonctionCR`, `fonctionCR_libelle`) VALUES
 	(1, 'Agent volontaire'),
 	(2, 'President de comite'),
 	(3, 'Secretaire generale de comite'),
@@ -1552,18 +1530,16 @@ INSERT INTO `fonctioncr` (`idfonctionCR`, `fonctionCR_libelle`) VALUES
 /*!40000 ALTER TABLE `fonctioncr` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. groupesanguin
-DROP TABLE IF EXISTS `groupesanguin`;
 CREATE TABLE IF NOT EXISTS `groupesanguin` (
-  `idGroupeSanguin` int(11) NOT NULL AUTO_INCREMENT,
+  `idGroupeSanguin` int NOT NULL AUTO_INCREMENT,
   `libelleGroupeSanguin` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`idGroupeSanguin`),
   KEY `idGroupeSanguin` (`idGroupeSanguin`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.groupesanguin : ~8 rows (environ)
-DELETE FROM `groupesanguin`;
 /*!40000 ALTER TABLE `groupesanguin` DISABLE KEYS */;
-INSERT INTO `groupesanguin` (`idGroupeSanguin`, `libelleGroupeSanguin`) VALUES
+REPLACE INTO `groupesanguin` (`idGroupeSanguin`, `libelleGroupeSanguin`) VALUES
 	(1, 'A+'),
 	(2, 'A-'),
 	(3, 'B+'),
@@ -1575,9 +1551,8 @@ INSERT INTO `groupesanguin` (`idGroupeSanguin`, `libelleGroupeSanguin`) VALUES
 /*!40000 ALTER TABLE `groupesanguin` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. image
-DROP TABLE IF EXISTS `image`;
 CREATE TABLE IF NOT EXISTS `image` (
-  `idimage` int(11) NOT NULL AUTO_INCREMENT,
+  `idimage` int NOT NULL AUTO_INCREMENT,
   `image_libelle` varchar(150) DEFAULT NULL,
   `image_legende` varchar(150) DEFAULT NULL,
   `image_date_ajout` date DEFAULT NULL,
@@ -1585,12 +1560,11 @@ CREATE TABLE IF NOT EXISTS `image` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`idimage`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.image : ~41 rows (environ)
-DELETE FROM `image`;
 /*!40000 ALTER TABLE `image` DISABLE KEYS */;
-INSERT INTO `image` (`idimage`, `image_libelle`, `image_legende`, `image_date_ajout`, `personne_idpersonne`, `created_at`, `updated_at`) VALUES
+REPLACE INTO `image` (`idimage`, `image_libelle`, `image_legende`, `image_date_ajout`, `personne_idpersonne`, `created_at`, `updated_at`) VALUES
 	(1, 'choupinpin.jpeg', NULL, '2020-04-26', 'CRCI-2020-C1-34', '2020-04-26 06:04:30', '2020-04-26 06:04:30'),
 	(2, 'bourse_chine.pdf', NULL, '2020-04-26', 'CRCI-2020-C1-35', '2020-04-26 06:07:45', '2020-04-26 06:07:45'),
 	(3, 'choupinpin.jpeg', NULL, '2020-04-26', 'CRCI-2020-C1-35', '2020-04-26 06:07:45', '2020-04-26 06:07:45'),
@@ -1631,39 +1605,37 @@ INSERT INTO `image` (`idimage`, `image_libelle`, `image_legende`, `image_date_aj
 	(38, 'PV de Recette Jalon 1.pdf', 'COPIEDELAPIECE', NULL, 'CRCI-2018-21-000067', '2020-12-15 15:07:45', '2020-12-15 15:07:45'),
 	(39, 'detail_structure_P1.pdf', 'COPIEDELAPIECE', NULL, '0089RT', '2020-12-15 16:17:45', '2020-12-15 16:17:45'),
 	(40, 'Documentation création de compte api.pdf', 'COPIEDELAPIECE', NULL, 'CRCI-1980-5-00089', '2020-12-15 16:31:05', '2020-12-15 16:31:05'),
-	(41, 'PROCEDURE DE MODIF.pdf', 'COPIEDELAPIECE', NULL, 'XX-TRE-0098', '2020-12-15 16:54:15', '2020-12-15 16:54:15');
+	(41, 'PROCEDURE DE MODIF.pdf', 'COPIEDELAPIECE', NULL, 'XX-TRE-0098', '2020-12-15 16:54:15', '2020-12-15 16:54:15'),
+	(42, 'IMG_20210516_120140_363.jpg', 'PHOTOVOLONTAIRE', NULL, 'CRCI-2020-C30-00897', '2021-05-28 18:49:26', '2021-05-28 18:49:26'),
+	(43, 'icon_user.png', 'PHOTOVOLONTAIRE', NULL, 'CRCI 2020 C67 2435', '2021-06-06 13:03:03', '2021-06-06 13:03:03');
 /*!40000 ALTER TABLE `image` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. migrations
-DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE IF NOT EXISTS `migrations` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL,
+  `batch` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.migrations : ~3 rows (environ)
-DELETE FROM `migrations`;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+REPLACE INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(1, '2014_10_12_100000_create_password_resets_table', 1),
 	(2, '2019_08_19_000000_create_failed_jobs_table', 1),
 	(3, '2020_10_07_143144_create_sessions_table', 1);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. module
-DROP TABLE IF EXISTS `module`;
 CREATE TABLE IF NOT EXISTS `module` (
-  `idModule` int(11) NOT NULL AUTO_INCREMENT,
+  `idModule` int NOT NULL AUTO_INCREMENT,
   `Module_libelle` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`idModule`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.module : ~4 rows (environ)
-DELETE FROM `module`;
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
-INSERT INTO `module` (`idModule`, `Module_libelle`) VALUES
+REPLACE INTO `module` (`idModule`, `Module_libelle`) VALUES
 	(1, 'Ressources Humaines'),
 	(2, 'Comptabilité'),
 	(3, 'Projets'),
@@ -1671,7 +1643,6 @@ INSERT INTO `module` (`idModule`, `Module_libelle`) VALUES
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. password_resets
-DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
@@ -1680,45 +1651,40 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.password_resets : ~0 rows (environ)
-DELETE FROM `password_resets`;
 /*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. pays
-DROP TABLE IF EXISTS `pays`;
 CREATE TABLE IF NOT EXISTS `pays` (
-  `idpays` int(11) NOT NULL AUTO_INCREMENT,
+  `idpays` int NOT NULL AUTO_INCREMENT,
   `pays_libelle` varchar(150) NOT NULL,
   PRIMARY KEY (`idpays`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Listage des données de la table croixrouge2021.pays : ~1 rows (environ)
-DELETE FROM `pays`;
+-- Listage des données de la table croixrouge2021.pays : ~0 rows (environ)
 /*!40000 ALTER TABLE `pays` DISABLE KEYS */;
-INSERT INTO `pays` (`idpays`, `pays_libelle`) VALUES
+REPLACE INTO `pays` (`idpays`, `pays_libelle`) VALUES
 	(1, 'Côte d\'Ivoire');
 /*!40000 ALTER TABLE `pays` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. pays_nationalite
-DROP TABLE IF EXISTS `pays_nationalite`;
 CREATE TABLE IF NOT EXISTS `pays_nationalite` (
   `PAYS_CODE` varchar(3) NOT NULL,
   `PAYS_ISO2` varchar(50) NOT NULL,
   `PAYS_INDICATIF` varchar(255) DEFAULT NULL,
   `PAYS_NOM` varchar(50) NOT NULL,
   `PAYS_NATIO` varchar(255) DEFAULT '',
-  `CONTINENT_ID` int(11) NOT NULL,
+  `CONTINENT_ID` int NOT NULL,
   PRIMARY KEY (`PAYS_CODE`,`CONTINENT_ID`),
   KEY `fk_PAYS_NATIONALITE_CONTINENT1_idx` (`CONTINENT_ID`),
   KEY `PAYS_NATIO` (`PAYS_NATIO`),
   KEY `PAYS_CODE` (`PAYS_CODE`),
-  CONSTRAINT `fk_PAYS_NATIONALITE_CONTINENT1` FOREIGN KEY (`CONTINENT_ID`) REFERENCES `continent` (`CONTINENT_ID`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `fk_PAYS_NATIONALITE_CONTINENT1` FOREIGN KEY (`CONTINENT_ID`) REFERENCES `continent` (`CONTINENT_ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.pays_nationalite : ~224 rows (environ)
-DELETE FROM `pays_nationalite`;
 /*!40000 ALTER TABLE `pays_nationalite` DISABLE KEYS */;
-INSERT INTO `pays_nationalite` (`PAYS_CODE`, `PAYS_ISO2`, `PAYS_INDICATIF`, `PAYS_NOM`, `PAYS_NATIO`, `CONTINENT_ID`) VALUES
+REPLACE INTO `pays_nationalite` (`PAYS_CODE`, `PAYS_ISO2`, `PAYS_INDICATIF`, `PAYS_NOM`, `PAYS_NATIO`, `CONTINENT_ID`) VALUES
 	('ABW', 'AW', '297', 'Aruba', 'Arubéens', 2),
 	('AFG', 'AF', '93', 'Afghanistan', '', 5),
 	('AGO', 'AO', '244', 'Angola', 'angolaise', 1),
@@ -1946,32 +1912,34 @@ INSERT INTO `pays_nationalite` (`PAYS_CODE`, `PAYS_ISO2`, `PAYS_INDICATIF`, `PAY
 /*!40000 ALTER TABLE `pays_nationalite` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. personne
-DROP TABLE IF EXISTS `personne`;
 CREATE TABLE IF NOT EXISTS `personne` (
-  `idpersonne` int(11) NOT NULL AUTO_INCREMENT,
+  `idpersonne` int NOT NULL AUTO_INCREMENT,
   `personne_immat` varchar(150) NOT NULL DEFAULT '',
   `personne_numero_fiche` varchar(150) NOT NULL DEFAULT '',
   `personne_nouvel_adherent` varchar(150) NOT NULL DEFAULT '' COMMENT 'OUI si ancien volontaire',
   `personne_civilite` varchar(150) NOT NULL DEFAULT '',
+  `codepostale` varchar(150) NOT NULL DEFAULT '',
   `personne_nom` varchar(150) NOT NULL,
   `personne_prenom` varchar(200) NOT NULL,
   `personne_date_naiss` date DEFAULT NULL,
   `personne_pays_naiss` varchar(50) DEFAULT NULL,
   `personne_pays_nationalite` varchar(50) DEFAULT NULL,
-  `personne_ville_naiss` int(11) DEFAULT NULL,
-  `personne_commune_naiss` int(11) DEFAULT NULL,
-  `personne_ville_habitation` int(11) DEFAULT NULL,
+  `personne_ville_naiss` int DEFAULT NULL,
+  `personne_commune_naiss` int DEFAULT NULL,
+  `personne_ville_habitation` int DEFAULT NULL,
   `lieuDeNaissance` varchar(850) DEFAULT NULL,
-  `personne_situation_mat` int(11) DEFAULT NULL,
-  `personne_commune_habitation` int(11) DEFAULT NULL,
+  `personne_situation_mat` int DEFAULT NULL,
+  `personne_commune_habitation` int DEFAULT NULL,
   `personne_antecedent_medic` varchar(150) DEFAULT NULL,
   `personne_activite` varchar(150) DEFAULT NULL,
   `personne_qualification` varchar(150) DEFAULT NULL,
   `personne_telephone_1` varchar(150) DEFAULT NULL,
   `personne_telephone_2` varchar(150) DEFAULT NULL,
+  `personne_telephone_3` varchar(150) DEFAULT NULL,
+  `personne_quartier_habitation` longtext,
   `personne_email` varchar(150) DEFAULT NULL,
   `personne_nom_urgence` varchar(450) DEFAULT NULL,
-  `personne_profil` int(11) DEFAULT 1,
+  `personne_profil` int DEFAULT '1',
   `personne_prenom_urgence` varchar(450) DEFAULT NULL,
   `personne_tel_urgence` varchar(450) DEFAULT NULL,
   `personne_nom_mere` varchar(450) DEFAULT 'NON',
@@ -1985,19 +1953,19 @@ CREATE TABLE IF NOT EXISTS `personne` (
   `personne_numero_permis` varchar(450) DEFAULT 'NON',
   `personne_nationalite_pere` varchar(50) DEFAULT NULL,
   `personne_etat_pere` varchar(50) DEFAULT NULL,
-  `fonctionCR_idfonctionCR` int(11) DEFAULT NULL,
-  `profession_idprofession` int(11) DEFAULT NULL,
-  `groupeSanguin` int(11) DEFAULT NULL,
-  `comiteActuel` int(11) DEFAULT NULL,
-  `TypePiece` int(11) DEFAULT NULL,
+  `fonctionCR_idfonctionCR` int DEFAULT NULL,
+  `profession_idprofession` int DEFAULT NULL,
+  `groupeSanguin` int DEFAULT NULL,
+  `comiteActuel` int DEFAULT NULL,
+  `TypePiece` int DEFAULT NULL,
   `NumerPiece` varchar(150) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
   `personne_niveau_etude` varchar(50) DEFAULT NULL,
-  `personne_ville_urgence` int(11) DEFAULT NULL,
-  `personne_commune_urgence` int(11) DEFAULT NULL,
-  `personne_quartier_urgence` varchar(50) DEFAULT NULL,
-  `personne_top_valide` int(1) DEFAULT 1,
+  `personne_ville_urgence` int DEFAULT NULL,
+  `personne_commune_urgence` int DEFAULT NULL,
+  `personne_quartier_urgence` longtext CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `personne_top_valide` int DEFAULT '1',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`personne_immat`),
   KEY `fk_personne_profil1_idx` (`personne_profil`),
   KEY `fk_personne_ville1_idx` (`personne_ville_habitation`),
@@ -2016,110 +1984,110 @@ CREATE TABLE IF NOT EXISTS `personne` (
   KEY `personne_nationalite_pere` (`personne_nationalite_pere`),
   KEY `personne_situation_mat` (`personne_situation_mat`),
   CONSTRAINT `FK_personne_comite` FOREIGN KEY (`comiteActuel`) REFERENCES `comite` (`idcomite`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_personne_groupesanguin` FOREIGN KEY (`groupeSanguin`) REFERENCES `groupesanguin` (`idGroupeSanguin`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `FK_personne_pays_nationalite` FOREIGN KEY (`personne_pays_naiss`) REFERENCES `pays_nationalite` (`PAYS_CODE`) ON UPDATE NO ACTION,
-  CONSTRAINT `FK_personne_situation_matrimoniale` FOREIGN KEY (`personne_situation_mat`) REFERENCES `situation_matrimoniale` (`idSitMat`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `fk_personne_commune1` FOREIGN KEY (`personne_commune_habitation`) REFERENCES `commune` (`idcommune`),
+  CONSTRAINT `fk_personne_commune2` FOREIGN KEY (`personne_commune_naiss`) REFERENCES `commune` (`idcommune`),
+  CONSTRAINT `fk_personne_fonctionCR1` FOREIGN KEY (`fonctionCR_idfonctionCR`) REFERENCES `fonctioncr` (`idfonctionCR`),
+  CONSTRAINT `FK_personne_groupesanguin` FOREIGN KEY (`groupeSanguin`) REFERENCES `groupesanguin` (`idGroupeSanguin`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_personne_pays_nationalite` FOREIGN KEY (`personne_pays_naiss`) REFERENCES `pays_nationalite` (`PAYS_CODE`),
+  CONSTRAINT `fk_personne_profession1` FOREIGN KEY (`profession_idprofession`) REFERENCES `profession` (`idprofession`),
+  CONSTRAINT `fk_personne_profil1` FOREIGN KEY (`personne_profil`) REFERENCES `profil` (`idprofil`),
+  CONSTRAINT `FK_personne_situation_matrimoniale` FOREIGN KEY (`personne_situation_mat`) REFERENCES `situation_matrimoniale` (`idSitMat`) ON UPDATE CASCADE,
   CONSTRAINT `FK_personne_typepiece` FOREIGN KEY (`TypePiece`) REFERENCES `typepiece` (`idTypePiece`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_personne_villes` FOREIGN KEY (`personne_pays_nationalite`) REFERENCES `pays_nationalite` (`PAYS_CODE`) ON UPDATE NO ACTION,
-  CONSTRAINT `fk_personne_commune1` FOREIGN KEY (`personne_commune_habitation`) REFERENCES `commune` (`idcommune`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_personne_commune2` FOREIGN KEY (`personne_commune_naiss`) REFERENCES `commune` (`idcommune`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_personne_fonctionCR1` FOREIGN KEY (`fonctionCR_idfonctionCR`) REFERENCES `fonctioncr` (`idfonctionCR`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_personne_profession1` FOREIGN KEY (`profession_idprofession`) REFERENCES `profession` (`idprofession`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_personne_profil1` FOREIGN KEY (`personne_profil`) REFERENCES `profil` (`idprofil`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_personne_ville1` FOREIGN KEY (`personne_ville_habitation`) REFERENCES `villes` (`VIL_IDENTIFIANT`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `fk_personne_ville2` FOREIGN KEY (`personne_ville_naiss`) REFERENCES `villes` (`VIL_IDENTIFIANT`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_personne_ville1` FOREIGN KEY (`personne_ville_habitation`) REFERENCES `villes` (`VIL_IDENTIFIANT`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_personne_ville2` FOREIGN KEY (`personne_ville_naiss`) REFERENCES `villes` (`VIL_IDENTIFIANT`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_personne_villes` FOREIGN KEY (`personne_pays_nationalite`) REFERENCES `pays_nationalite` (`PAYS_CODE`)
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
 
--- Listage des données de la table croixrouge2021.personne : ~75 rows (environ)
-DELETE FROM `personne`;
+-- Listage des données de la table croixrouge2021.personne : ~79 rows (environ)
 /*!40000 ALTER TABLE `personne` DISABLE KEYS */;
-INSERT INTO `personne` (`idpersonne`, `personne_immat`, `personne_numero_fiche`, `personne_nouvel_adherent`, `personne_civilite`, `personne_nom`, `personne_prenom`, `personne_date_naiss`, `personne_pays_naiss`, `personne_pays_nationalite`, `personne_ville_naiss`, `personne_commune_naiss`, `personne_ville_habitation`, `lieuDeNaissance`, `personne_situation_mat`, `personne_commune_habitation`, `personne_antecedent_medic`, `personne_activite`, `personne_qualification`, `personne_telephone_1`, `personne_telephone_2`, `personne_email`, `personne_nom_urgence`, `personne_profil`, `personne_prenom_urgence`, `personne_tel_urgence`, `personne_nom_mere`, `personne_nationalite_mere`, `personne_etat_mere`, `personne_prenom_mere`, `personne_email_urgence`, `personne_avoir_permis`, `personne_nom_pere`, `personne_prenom_pere`, `personne_numero_permis`, `personne_nationalite_pere`, `personne_etat_pere`, `fonctionCR_idfonctionCR`, `profession_idprofession`, `groupeSanguin`, `comiteActuel`, `TypePiece`, `NumerPiece`, `updated_at`, `created_at`, `personne_niveau_etude`, `personne_ville_urgence`, `personne_commune_urgence`, `personne_quartier_urgence`, `personne_top_valide`) VALUES
-	(64, '0000436', 'F - 435009', 'NON', 'Mr', 'ADIKO', 'YABO CHARLES', '1990-05-12', 'CIV', 'CIV', 299, 320, 1, NULL, 2, 3, NULL, 'medecin interne au CHU de Tiebissou', 'medecine generaliste', '04890089', NULL, NULL, 'SERY', 1, 'DORCAS', '04357809', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 3, 6, 80, 1, 'C 5647 9089 34', '2020-12-14 15:21:41', '2020-12-14 15:21:41', NULL, NULL, NULL, NULL, 1),
-	(67, '00007567', 'F-2145 8768 34', 'NON', 'Mr', 'CISSE', 'BAMORY', '1987-04-02', 'CIV', 'CIV', 19, 168, 1, NULL, 1, 0, NULL, NULL, 'coordonier', '02345656', NULL, 'cisse@gmail.com', 'OULAI', 1, 'ADAMS', '44567787', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 28, 1, 80, 1, 'C 0899 9987 90', '2020-12-15 09:40:26', '2020-12-15 09:40:26', NULL, NULL, NULL, NULL, 1),
-	(72, '00007867', 'F-76567', 'NON', 'Mr', 'AKA', 'JEREMIE', '1978-02-11', 'CIV', 'CIV', 1, 16, 1, NULL, 2, 8, NULL, NULL, NULL, '08924355', NULL, 'ser@gmail.com', 'ATTIEN', 1, 'SILLAS', '02134343', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 4, 39, 5, 80, 1, 'C 8978 5545 90', '2020-12-15 11:55:45', '2020-12-15 11:55:45', NULL, NULL, NULL, NULL, 1),
-	(74, '000576', 'F-3344', 'NON', 'Mr', 'GREMINO', 'ADOLPHE', '1978-08-07', 'CIV', 'CIV', 18, 44, 37, NULL, 2, 18, NULL, NULL, NULL, '08900087', NULL, NULL, 'SIDIBE', 1, 'MARIAME', '04342612', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 134, 3, 80, 1, 'C 9865 0989 34', '2020-12-15 14:28:15', '2020-12-15 14:28:15', NULL, NULL, NULL, NULL, 1),
-	(68, '0008987', 'F-4234', 'NON', 'Mr', 'FROKI', 'FREGUS', '1986-03-09', 'CIV', 'CIV', 75, 4, 1, NULL, 2, 4, NULL, NULL, NULL, '03789009', NULL, NULL, 'ADIGBATE', 1, 'JONAS', '09878767', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 18, 1, 80, 1, 'C 8978 7867 99', '2020-12-15 11:15:17', '2020-12-15 11:15:17', NULL, NULL, NULL, NULL, 1),
-	(70, '0089RT', 'F-XDER', 'NON', 'Mr', 'NIAMIEN', 'CEDRIC', '1977-07-08', 'CIV', 'CIV', 1, 3, 1, NULL, 2, 13, NULL, NULL, NULL, '09897632', NULL, NULL, 'DIABATE', 1, 'KADER', '78980090', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 3, 169, 1, 80, 1, 'C 9890 5676 78', '2020-12-15 11:28:26', '2020-12-15 11:28:26', NULL, NULL, NULL, NULL, 1),
-	(66, '00989', 'F-54639', 'NON', 'Mr', 'DIABY', 'MATROU', '1980-09-03', 'CIV', 'CIV', 1, 3, 1, NULL, 2, 3, NULL, NULL, 'PATISSIER', '08908800', NULL, 'diabymatrou@gmail.com', 'N\'GUETTA', 1, 'CARINE', '08780089', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 25, 1, 80, 1, 'C 0890 4568 23', '2020-12-15 09:37:26', '2020-12-15 09:37:26', NULL, NULL, NULL, NULL, 1),
-	(59, 'ANCIEN-MAT-2019-ZPQ', '2310098CDZ', 'NON', 'Mr', 'MADINGA', 'Aliou Stephane', '1990-09-21', 'CIV', 'CIV', 532, 553, 1, NULL, 1, 0, NULL, NULL, 'commerçante magasinier', '43566500', NULL, 'madinga@gmail.com', 'SIOULA', 1, 'Aliou Stephane', '43767888', NULL, 'CIV', '', NULL, NULL, 'OUI', NULL, NULL, 'P-78980', 'CIV', '', 1, 4, 1, 2, 1, 'C 6574 7867 34', '2020-12-10 07:12:45', '2020-12-10 07:12:45', NULL, NULL, NULL, NULL, 1),
-	(71, 'ANTI-ROUILLE', 'F-9876 6545 6', 'NON', 'Mr', 'BONI', 'ANGELO', '1978-08-02', 'CIV', 'CIV', 1, 4, 1, NULL, 2, 4, NULL, NULL, NULL, '01012343', NULL, NULL, 'VENON', 1, 'ACHILE', '04324566', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 3, 35, 4, 80, 1, 'C 0890 5467 33', '2020-12-15 11:43:29', '2020-12-15 11:43:29', NULL, NULL, NULL, NULL, 1),
-	(77, 'AZERTYUIOP', 'F-0978²', 'NON', 'Mr', 'KANGA', 'ALBERT', '1978-03-10', 'CIV', 'CIV', 1, 23, 1, NULL, 1, 42, NULL, NULL, NULL, '03457877', NULL, NULL, 'ACHI', 1, 'LOUIS', '03567745', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 183, 1, 1, 1, 'C 8669 4356 21', '2020-12-15 14:50:50', '2020-12-15 14:50:50', NULL, NULL, NULL, NULL, 1),
-	(79, 'CRCI-1978-56-000067', 'F-7654 7876 89', 'NON', 'Mr', 'DERICK', 'JOASHIN', '1976-07-21', 'CIV', 'CIV', 1, 0, 1, NULL, 2, 2, NULL, NULL, NULL, '09890078', NULL, NULL, 'SEKA', 1, 'NORBERT', '09786675', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 1, 1, 80, 1, 'C 0890 7867 89', '2020-12-15 14:59:56', '2020-12-15 14:59:56', NULL, NULL, NULL, NULL, 1),
-	(81, 'CRCI-1980-5-00089', 'F-32408', 'NON', 'Mr', 'KOUAKOU', 'JEAN FIRMIN', '1976-03-21', 'CIV', 'CIV', 1, 22, 1, NULL, 2, 2, NULL, NULL, NULL, '07675688', NULL, NULL, 'SOLO', 1, 'YVETTE', '65453345', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 3, 15, 1, 80, 1, 'C 0089 6568 9', '2020-12-15 15:48:08', '2020-12-15 15:48:08', NULL, NULL, NULL, NULL, 1),
-	(65, 'CRCI-2008-34-00897', 'F-89008', 'NON', 'Mr', 'ADEKA', 'NEGABO JOACHIN', '1978-04-13', 'CIV', 'CIV', 1088, 4, 1, NULL, 2, 3, NULL, 'entrepreneur', 'commerçante de produit phyto', '03435566', NULL, NULL, 'ADEGUE', 1, 'SIMPLICE', '09008900', NULL, 'CIV', '', NULL, NULL, 'OUI', NULL, NULL, 'P-3455V98', 'CIV', '', 1, 4, 1, 80, 1, 'C 5647 8769 43', '2020-12-14 15:29:31', '2020-12-14 15:29:31', NULL, NULL, NULL, NULL, 1),
-	(75, 'CRCI-2014-35-00865', 'F-3467', 'NON', 'Mr', 'DIAKITE', 'BOUBA', '1978-09-12', 'FRA', 'CIV', 1, 0, 1, NULL, 1, 22, NULL, NULL, NULL, '05657567', NULL, NULL, 'SERY', 1, 'ALBERT', '03456754', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 28, 1, 80, 1, 'C 8768 3463 21', '2020-12-15 14:40:25', '2020-12-15 14:40:25', NULL, NULL, NULL, NULL, 1),
-	(78, 'CRCI-2017-43-008976', 'F-35609', 'NON', 'Mr', 'ZERBO', 'ZEPHIRIN', '1977-09-10', 'BFA', 'CIV', 1, 0, 1, NULL, 2, 6, NULL, NULL, NULL, '07675645', NULL, NULL, 'ADIKO', 1, 'CLEMENT', '89776576', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 45, 1, 80, 1, 'C 5674 9867 34', '2020-12-15 14:57:10', '2020-12-15 14:57:10', NULL, NULL, NULL, NULL, 1),
-	(80, 'CRCI-2018-21-000067', 'F-0098', 'NON', 'Mr', 'BEDIA', 'CLEMENT', '1985-03-12', 'CIV', 'CIV', 1, 23, 1, NULL, 2, 8, NULL, NULL, NULL, '08907786', NULL, NULL, 'DIABY', 1, 'ABEL', '78987789', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 24, 1, 80, 1, 'C 7685 4653 89', '2020-12-15 15:07:44', '2020-12-15 15:07:44', NULL, NULL, NULL, NULL, 1),
-	(61, 'CRCI-2020-C-', '8689ZESE', 'OUI', 'Mr', 'BIDOUBA', 'Jean Charles', '1987-05-23', 'CIV', 'CIV', 997, 1018, 1, NULL, 1, 4, NULL, NULL, 'expert en communication', '43567766', NULL, NULL, 'KOUROUMA', 1, 'ADAMA', '89009009', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 6, 1, NULL, 4, 'ERFD-0994', '2020-12-10 07:55:19', '2020-12-10 07:55:19', NULL, NULL, NULL, NULL, 1),
-	(62, 'CRCI-2020-C-0062', '2310098CDF', 'OUI', 'Mr', 'HENRY', 'FORCAS', '1987-04-12', 'CIV', 'CIV', 1, 1, 1, NULL, 1, 1, NULL, NULL, 'boy cuisinier', '01723687', NULL, NULL, 'KOUROUMA', 1, 'ADAMA', '08900091', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 1, 1, NULL, 1, 'C 0890 5676 98', '2020-12-10 07:58:35', '2020-12-10 07:58:35', NULL, NULL, NULL, NULL, 1),
-	(16, 'CRCI-2020-C1-16', '', '', 'Mr', 'Djamara', 'Edjuhe Cyrille', '1995-12-04', 'CIV', 'ABW', 1, 1, 1, NULL, 1, 1, NULL, 'gerant de vitrine pour verre pharmaceutique', 'doctorant en mathematique', '45263626', NULL, NULL, 'Djamara', 1, 'Edjuhe Cyrille', '41256300', 'NON', 'CIV', '', 'NON', 'drf@gmail.com', 'NON', 'NON', 'NON', '', 'CIV', '', 1, 4, 1, 1, 1, 'C 0012 5435 89', '2020-04-25 23:30:00', '2020-04-25 23:30:00', NULL, NULL, NULL, NULL, 1),
-	(24, 'CRCI-2020-C1-24', '', '', 'Mr', 'Antonie', 'Jean Cedric', '1986-04-10', 'MLI', 'MLI', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'chirurgien', '45263626', NULL, 'akal@gmail.com', 'N\'Gaman', 1, 'Fabrice', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 05:05:00', '2020-04-26 05:05:00', NULL, NULL, NULL, NULL, 1),
-	(25, 'CRCI-2020-C1-25', '', '', 'Mr', 'Assouan', 'Alfred', '1996-02-10', 'BFA', 'BFA', 1, 1, 1, NULL, NULL, 8, NULL, 'proprietaire gerant de pharmacie', 'pharmacienne', '45000054', NULL, 'mikimiki@gmail.com', 'Aka', 1, 'Houle', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 05:08:45', '2020-04-26 05:08:45', NULL, NULL, NULL, NULL, 1),
-	(26, 'CRCI-2020-C1-26', '', '', 'Mr', 'Eboue', 'Severin', '1965-05-14', 'CIV', 'BDI', 1, 1, 1, NULL, 2, 1, NULL, 'proprietaire gerant de pharmacie', 'pharmacienne', '45263626', NULL, 'ablapokou@gmail.com', 'N\'cho', 1, 'Severin', '41256300', 'NON', 'CIV', '', 'NON', NULL, 'NON', 'NON', 'NON', '', 'CIV', '', 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 05:12:02', '2020-04-26 05:12:02', NULL, NULL, NULL, NULL, 1),
-	(27, 'CRCI-2020-C1-27', '', '', 'Mr', 'Aka', 'Jean Marie', '1986-02-10', 'BFA', 'BFA', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'pharmacienne', '45263626', NULL, 'mikimiki@gmail.com', 'N\'goran', 1, 'Clovis', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 05:17:35', '2020-04-26 05:17:35', NULL, NULL, NULL, NULL, 1),
-	(28, 'CRCI-2020-C1-28', '', '', 'Mr', 'Sery', 'Gaspard Jean Edgar', '1958-04-12', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, 'accident', 'vendeur de poulet au marché', 'commerçante', '57000075', NULL, 'ahou@gmail.com', 'N\'Gaman', 1, 'Augustin', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 4, 1, 1, 1, 'C 0012 3025 89', '2020-04-26 05:22:48', '2020-04-26 05:22:48', NULL, NULL, NULL, NULL, 1),
-	(29, 'CRCI-2020-C1-29', '', '', 'Mr', 'Sery', 'Gaspard', '1985-10-10', 'MLI', 'MLI', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'pharmacienne', '45263626', NULL, 'akal@gmail.com', 'N\'Gaman', 1, 'Clovis', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 05:26:03', '2020-04-26 05:26:03', NULL, NULL, NULL, NULL, 1),
-	(31, 'CRCI-2020-C1-31', '', '', 'Mr', 'Becho', 'Jean Brice', '1985-05-10', 'ARE', 'AGO', 1, 1, 1, NULL, NULL, 1, NULL, 'gerant de vitrine pour verre pharmaceutique', 'pharmacienne', '45263626', NULL, 'ahou@gmail.com', 'N\'Gaman', 1, 'Clovis', '74859001', 'NON', '0', NULL, 'NON', '74859001', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 05:55:35', '2020-04-26 05:55:35', NULL, NULL, NULL, NULL, 1),
-	(32, 'CRCI-2020-C1-32', '', '', 'Mr', 'Sery', 'Gaspard', '1996-10-04', 'FRA', 'CIV', 1, 1, 1, NULL, NULL, 1, NULL, NULL, NULL, '45263626', NULL, 'ahou@gmail.com', 'N\'choa', 1, 'Achile', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 05:58:16', '2020-04-26 05:58:16', NULL, NULL, NULL, NULL, 0),
-	(33, 'CRCI-2020-C1-33', '', '', 'Mr', 'Digbeu', 'Dallo Jean claude le Roi', '1986-02-01', 'CIV', 'CIV', 788, 809, 1, 'Village situé à 45 km du campement BOIGNY', 1, 4, NULL, 'gerant de vitrine pour verre pharmaceutique de garde', 'pharmacienne', '45263626', NULL, 'digbeu1er@gmail.com', 'N\'goran', 1, 'Dallo Jean claude le Roi', '04120020', 'NON', 'CIV', '', 'NON', 'ngorandallo@yahoo.fr', 'NON', 'NON', 'NON', '', 'CIV', '', 1, 3, 1, 1, 2, 'P 0012 5435 89', '2020-04-26 06:01:20', '2020-04-26 06:01:20', NULL, NULL, NULL, NULL, 1),
-	(34, 'CRCI-2020-C1-34', '', '', 'Mr', 'Aka', 'Cedric', '1986-10-04', 'ITA', 'CIV', 1, 1, 1, NULL, NULL, 6, NULL, NULL, NULL, '45263626', '03030030', 'mikimiki@gmail.com', 'N\'cho', 1, 'Achile', '74859001', 'NON', '0', NULL, 'NON', '74859001', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 06:04:29', '2020-04-26 06:04:29', NULL, NULL, NULL, NULL, 1),
-	(35, 'CRCI-2020-C1-35', '', '', 'Mr', 'Enga', 'Georges Mikael', '1998-04-10', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire du maquis les VALLET', 'Entrepreneur', '57000075', '09809900', 'engageorges@gmail.com', 'Auleguer', 1, 'Patrick', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 0580 89', '2020-04-26 06:07:44', '2020-04-26 06:07:44', NULL, NULL, NULL, NULL, 1),
-	(36, 'CRCI-2020-C1-36', '', '', 'Mme', 'Angaman', 'Marie Jeanne', '1998-05-02', 'CIV', 'CIV', 229, 4, 229, NULL, NULL, 250, NULL, 'proprietaire d\'un salon de couture', 'couturière', '06060006', NULL, NULL, 'N\'guetta', 1, 'Pierre Marie', '04150051', 'NON', '0', NULL, 'NON', '04150051', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 08:53:09', '2020-04-26 08:53:09', NULL, NULL, NULL, NULL, 0),
-	(40, 'CRCI-2020-C1-40', '', '', 'Mr', 'DIEME', 'Aichatou', '1990-03-01', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'commerçante', 'commerçante', '87900099', NULL, NULL, 'YAO', 1, 'Rita', '09999099', 'NON', '0', NULL, 'NON', '09999099', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0985 3420 93', '2020-09-22 13:38:44', '2020-09-22 13:38:44', NULL, NULL, NULL, NULL, 0),
-	(52, 'CRCI-2020-C1-52', '', '', 'Mr', 'WADJA', 'Guy Babylas', '1985-06-02', 'CIV', 'CIV', 1, 6, 1, 'CHU de cocody', 2, 8, NULL, 'cableur electrique', 'electricien', '09809000', NULL, 'wadjas@gmail.com', 'DJIBRIL', 1, 'Kader', '08907800', 'KOFFI', 'CIV', '', 'Olga', NULL, 'OUI', 'WADJAS', 'Albert', 'PERMIS-098900', 'CIV', '', 3, 6, 1, 1, 3, 'AATT-0989', '2020-11-08 14:31:58', '2020-11-08 14:31:58', NULL, NULL, NULL, NULL, 1),
-	(53, 'CRCI-2020-C1-53', '', '', 'Mr', 'BOUBA', 'BOZZA', '1987-09-12', 'CIV', 'CIV', 1, 4, 1, 'PARIS VILLAGE', 2, 1, NULL, NULL, 'professeur de comptabililté', '21348984', NULL, NULL, 'GNAMKEY', 1, 'JEAN EDOUARD', '08900090', NULL, 'CIV', '', NULL, 'serti@gmail.com', 'NON', NULL, NULL, '', 'CIV', '', 1, 1, 1, 1, 1, 'C 0988 7657 90', '2020-12-09 19:17:12', '2020-12-09 19:17:12', NULL, NULL, NULL, NULL, 1),
-	(55, 'CRCI-2020-C1-55', '2310098', 'Non', 'Mr', 'BOUABRE', 'JEAN EUDE', '1984-04-10', 'CIV', 'CIV', 127, 148, 1, NULL, 2, 3, NULL, NULL, 'boy cuisinier', '21348984', NULL, 'bouabre@gmail.com', 'GNAMKEY', 1, 'JEAN EDOUARD', '08900091', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 5, 1, 1, 1, 'C 0989 4434 12', '2020-12-09 20:17:40', '2020-12-09 20:17:40', NULL, NULL, NULL, NULL, 1),
-	(39, 'CRCI-2020-C13-39', '', '', 'Mme', 'DIEME', 'Aichatou', '1990-03-01', 'CIV', 'CIV', 208, 229, 1, 'A l\'hoptal regional', NULL, 1, NULL, 'commerçante', 'commerçante', '87900099', NULL, 'monami@gmail.com', 'YAO', 1, 'Aichatou', '47008207', 'NON', '0', NULL, 'NON', 'monami@gmail.com', NULL, 'NON', 'NON', 'NON', '0', NULL, 2, 1, 1, 22, 3, 'C 0985 3420 98', '2020-09-21 23:12:07', '2020-09-21 23:12:07', NULL, NULL, NULL, NULL, 1),
-	(38, 'CRCI-2020-C2-38', '', '', 'Mr', 'AKPOUE', 'Eliasson Jean Firmin', '1987-06-09', 'CIV', 'CIV', 1, 1, 1, NULL, NULL, 8, 'accident de la circulation qui a causé un problème dans la jambe, utilisation de prothèse', 'responsable consultation à la clinique les BETERS', 'médecin généraliste', '09008999', '05253505', 'jeanf@gmail.com', 'Zamblé', 1, 'Richard', '09809000', 'NON', '0', NULL, 'NON', '09809000', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 3, 1, 2, 1, 'C 0107 0147 79', '2020-08-25 08:17:14', '2020-08-25 08:17:14', NULL, NULL, NULL, NULL, 1),
-	(41, 'CRCI-2020-C2-41', '', '', 'Mr', 'GOBE', 'GUIZON Jean Antoinne', '1982-12-14', 'CIV', 'CIV', 115, 136, 1, 'A l\'hopital général, derrière la gendarmerie', NULL, 4, NULL, 'chef de chantier', 'technicien en batiment', '01989008', NULL, 'godejean@gmail.com', 'Ahou', 1, 'Josephine', '09890098', 'Niamke', 'CIV', 'decede', 'Helene', NULL, 'OUI', 'Gode', 'Jean Charles', 'XYZ-0989-2011', 'CIV', 'decede', 1, 6, 3, 2, 1, 'C 098790 786', '2020-09-29 09:58:23', '2020-09-29 09:58:23', NULL, NULL, NULL, NULL, 0),
-	(42, 'CRCI-2020-C2-42', '', '', 'Mr', 'GOBE', 'GUIZON Jean Antoinne', '1982-12-14', 'CIV', 'CIV', 115, 136, 1, 'A l\'hopital général, derrière la gendarmerie', NULL, 4, NULL, 'chef de chantier', 'technicien en batiment', '01989008', NULL, 'godejean@gmail.com', 'Ahou', 1, 'Josephine', '09890098', 'Niamke', 'CIV', 'decede', 'Helene', NULL, 'OUI', 'Gode', 'Jean Charles', 'XYZ-0989-2011', 'CIV', 'decede', 1, 6, 3, 2, 1, 'C 098790 786', '2020-09-29 09:59:36', '2020-09-29 09:59:36', NULL, NULL, NULL, NULL, 1),
-	(43, 'CRCI-2020-C2-43', '', '', 'Mr', 'GOBE', 'GUIZON Jean Antoinne', '1954-12-14', 'CIV', 'CIV', 115, 136, 115, 'A l\'hopital général, derrière la gendarmerie', NULL, 136, NULL, NULL, 'electricien', '45000054', NULL, 'godejean@gmail.com', 'ahou', 1, 'Helene', '74859001', 'Niamkey', 'CIV', 'decede', 'Elisabeth', NULL, 'OUI', 'GODE', 'Jean Charles', 'XYT-2012-43H', 'CIV', 'decede', 1, 6, 4, 2, 1, 'C 09 8765', '2020-09-29 10:03:57', '2020-09-29 10:03:57', NULL, NULL, NULL, NULL, 0),
-	(44, 'CRCI-2020-C2-44', '', '', 'Mr', 'GODE', 'Jean Benoit', '1967-12-14', 'CIV', 'CIV', 115, 136, 1, 'A l\'hopital général', NULL, 4, NULL, 'chef maçon', 'Maçonnerie', '09809900', NULL, 'godejeanb@yahoo.fr', 'Ahou', 1, 'Helene', '04350890', 'Ezoumian', 'CIV', 'decede', 'Justine', NULL, 'OUI', 'Gode', 'Baptiste', 'SDF-2435', 'CIV', 'decede', 1, 6, 5, 2, 1, 'C 9067 4236', '2020-09-29 10:09:04', '2020-09-29 10:09:04', NULL, NULL, NULL, NULL, 0),
-	(45, 'CRCI-2020-C2-45', '', '', 'Mr', 'GODE', 'BLEOU Martin', '1953-03-12', 'CIV', 'CIV', 115, 136, 1, 'A l\'hopital général', NULL, 4, NULL, 'instituteur', 'technicien en batiment', '45000054', NULL, 'godejean@yahoo.fr', 'Ahou', 1, 'Helene', '07950429', 'NIAMKEY', 'CIV', 'decede', 'Priscile', NULL, 'OUI', 'GODE', 'Baptiste', 'PERMIS-RTD-2012', 'CIV', 'decede', 1, 6, 1, 2, 1, 'C 7675 9890 09', '2020-09-29 10:22:23', '2020-09-29 10:22:23', NULL, NULL, NULL, NULL, 0),
-	(46, 'CRCI-2020-C2-46', '', '', 'Mr', 'GODE', 'BLEOU Martin', '1953-03-12', 'CIV', 'CIV', 115, 136, 1, 'A l\'hopital général', NULL, 4, NULL, 'instituteur', 'technicien en batiment', '45000054', NULL, 'godejean@yahoo.fr', 'Ahou', 1, 'Helene', '07950427', 'NIAMKEY', 'CIV', 'decede', 'Priscile', NULL, 'OUI', 'GODE', 'Baptiste', 'PERMIS-RTD-2012', 'CIV', 'decede', 1, 6, 1, 2, 1, 'C 7675 9890 09', '2020-09-29 10:23:18', '2020-09-29 10:23:18', NULL, NULL, NULL, NULL, 0),
-	(54, 'CRCI-2020-C2-54', '2310098', 'Non', 'Mr', 'BOUKARY', 'YSSOUF', '1978-03-12', 'CIV', 'CIV', 1, 6, 1, 'KOUMASSI DIVO', 2, 6, NULL, NULL, 'professeur de comptabililté', '21348984', NULL, 'boukary@gmail.com', 'GNAMKEY', 1, 'JEAN EDOUARD', '08900090', NULL, 'CIV', '', NULL, 'serti@gmail.com', 'NON', NULL, NULL, '', 'CIV', '', 1, 1, 1, 2, 1, 'C 0890 5676 98', '2020-12-09 19:42:35', '2020-12-09 19:42:35', NULL, NULL, NULL, NULL, 1),
-	(57, 'CRCI-2020-C2-57', '9989009', 'Non', 'Mr', 'DEPRI', 'Jeanne Esso Martine', '1976-03-21', 'CIV', 'CIV', 997, 1018, 1, NULL, 2, 2, NULL, NULL, 'auditeur en système energetique', '08900089', NULL, NULL, 'KOUAKOU', 1, 'HILAIRE', '02345545', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 6, 1, 2, 1, 'C 7608 3452 23', '2020-12-10 06:49:37', '2020-12-10 06:49:37', NULL, NULL, NULL, NULL, 1),
-	(58, 'CRCI-2020-C2-58', '2310098CDZ', 'Non', 'Mr', 'SANGARE', 'IBRAHIM', '1993-03-11', 'CIV', 'CIV', 1, 4, 1, NULL, 1, 4, NULL, NULL, 'commerçante magasinier', '01723687', NULL, 'babasangare@gmail.com', 'CHERIF', 1, 'OUSMANE', '45657566', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 4, 1, 2, 1, 'C 5674 0989 34', '2020-12-10 07:07:47', '2020-12-10 07:07:47', NULL, NULL, NULL, NULL, 1),
-	(60, 'CRCI-2020-C2-60', 'FICHE-okuj', 'OUI', 'Mr', 'YORO', 'DAVID', '1976-07-05', 'CIV', 'CIV', 3, 24, 1, NULL, 2, 4, NULL, NULL, 'commerçante magasinier', '78880888', NULL, NULL, 'SIOULA', 1, 'ADELINE', '02345545', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 1, 1, 2, 4, 'C 8987 8874 32', '2020-12-10 07:16:33', '2020-12-10 07:16:33', NULL, NULL, NULL, NULL, 1),
-	(56, 'CRCI-2020-C3-56', '555000055', 'Non', 'Mr', 'SYLLA', 'ASSANE', '1975-09-11', 'CIV', 'CIV', 1, 1075, 1, NULL, 2, 1, NULL, NULL, NULL, '56788700', NULL, 'syllaassane@gmail.com', 'CHERIF', 1, 'MOUSSA', '08900091', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 1, 1, 3, 1, 'C 0890 5676 98', '2020-12-09 22:48:59', '2020-12-09 22:48:59', NULL, NULL, NULL, NULL, 1),
-	(63, 'CRCI-2020-C34-0001', 'F-34536', 'OUI', 'Mlle', 'M\'PONOU', 'MARINETTE', '1987-12-12', 'CIV', 'CIV', 5, 26, 1, 'vers le marché aux puces', 1, 15, NULL, NULL, 'patissière', '08900089', NULL, NULL, 'KOFFI', 1, 'KOFFI MATHIAS', '09897887', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 6, 5, 80, 1, 'C 7678 3243 90', '2020-12-14 06:55:37', '2020-12-14 06:55:37', NULL, NULL, NULL, NULL, 1),
-	(30, 'CRCI-2020-C4-30', '', '', 'Mr', 'Aka', 'Louis Paul', '1986-12-04', 'BDI', 'MWI', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'pharmacienne', '57000075', NULL, 'ahou@gmail.com', 'N\'goran', 1, 'Edjuhe Cyrille', '04120020', 'NON', '0', NULL, 'NON', '04120020', NULL, 'NON', 'NON', 'NON', '0', NULL, 2, 1, 1, 4, 1, 'C 0012 5435 89', '2020-04-26 05:31:03', '2020-04-26 05:31:03', NULL, NULL, NULL, NULL, 1),
-	(37, 'CRCI-2020-C4-37', '', '', 'Mlle', 'Sery', 'Jeannette', '1984-12-14', 'CIV', 'CIV', 321, 342, 321, NULL, NULL, 342, 'accident de la circulation sur la chaussée', 'cuisinière', 'entrepreuneur', '04140441', NULL, NULL, 'Digbeu', 1, 'Alphonse', '05250552', 'NON', '0', NULL, 'NON', '05250552', NULL, 'NON', 'NON', 'NON', '0', NULL, 2, 1, 1, 4, 1, 'C 0012 5435 89', '2020-04-26 12:27:31', '2020-04-26 12:27:31', NULL, NULL, NULL, NULL, 1),
-	(51, 'CRCI-2020-C71-51', '', '', 'Mr', 'GNEKPA', 'Dekpa Norbert', '1972-02-18', 'CIV', 'CIV', 1, 342, 1, 'Guiberoua', 1, 1, NULL, 'professeur de physique', 'professeur', '07890098', NULL, 'gnekpanorbert@gmail.com', 'Soro', 1, 'Dekpa Norbert', '78090980', 'Dion', 'CIV', '', 'Nathalie', NULL, 'OUI', 'GNEKPA', 'Phillipe', 'C 089 4563 45', 'CIV', '', 1, 6, 1, 71, 1, 'C 7867 9800 56', '2020-11-08 13:13:41', '2020-11-08 13:13:41', NULL, NULL, NULL, NULL, 1),
-	(48, 'CRCI-2020-C76-48', '', '', 'Mr', 'SORI', 'Abdoulaye', '1976-08-12', 'CIV', 'CAN', 1, 6, 1, 'dallas', NULL, 3, NULL, 'LOGISTICIEN', 'LOGISTIQUE', '09889000', '58900676', 'djamara@gmail.com', 'COULIBALY', 1, 'MORI', '59 58 74 59', 'DJABATE', 'CIV', '', 'ALIMA', NULL, 'oui', 'SORO', 'YENEMA', 'COUL01-15-00113517I', 'CIV', '', 1, NULL, 1, 76, 1, 'C 9067 4236', '2020-10-01 11:10:14', '2020-10-01 11:10:14', NULL, NULL, NULL, NULL, 1),
-	(47, 'CRCI-2020-C79-47', '', '', 'Mr', 'COULIBALY', 'IDRISSA', '1979-03-12', 'CIV', 'CIV', 1, 8, 1, 'A l\'hopital général de marcory', 1, 1, NULL, 'LOGISTICIEN', 'LOGISTIQUE', '49 70 68 93', '49 70 68 93', 'idyckool@yahoo.fr', 'COULIBALY', 1, 'IDRISSA', '59 58 74 59', 'DJABATE', 'CIV', 'decede', 'ALIMA', NULL, 'OUI', 'COULIBALY', 'ZIE', 'PERMIS-RTD-2012', 'CIV', '', 1, 4, 1, 79, 1, 'C 0040 1883 97', '2020-10-01 10:37:29', '2020-10-01 10:37:29', NULL, NULL, NULL, NULL, 1),
-	(49, 'CRCI-2020-C79-49', '', '', 'Mr', 'Ahou', 'Jean Oscar', '1980-09-08', 'CIV', 'CIV', 1, 1, 1, 'CHR de cocody', NULL, 8, NULL, 'gerant de vitrine pour verre pharmaceutique', 'ophtamologue', '05385555', NULL, NULL, 'N\'guessan', 1, 'Alfred', '09566520', 'TOE BI', 'CIV', '', 'Yvette', NULL, 'OUI', 'AHUA', 'Raymond', 'AZERTY', 'CIV', '', 1, 1, 1, 79, 1, 'C-026399', '2020-10-01 11:20:21', '2020-10-01 11:20:21', NULL, NULL, NULL, NULL, 1),
-	(50, 'CRCI-2020-C79-50', '', '', 'Mr', 'Daleba', 'Ehouan Kakou Joel', '1976-03-17', 'CIV', 'CIV', 530, 551, 1, NULL, 2, 5, 'asthmatique au bas âge , problème respiratoire survenu dans le passé', 'responsable d\'usine, tous travaux d\'électricité', 'informaticien industriel', '02130414', '47607760', 'dalebajoel@yahoo.fr', 'Mme Daleba née Djoudjo', 1, 'Srè Georgette', '78099009', 'Kakou', 'CIV', 'decede', 'Emilie', NULL, 'OUI', 'Daleba', 'Salif', '2012CDY3277211', 'CIV', 'decede', 1, 6, 6, 79, 1, 'C 9870 6573 98', '2020-10-06 15:51:46', '2020-10-06 15:51:46', NULL, NULL, NULL, NULL, 1),
-	(83, 'CRCI-2021--0001', '', '', 'Mlle', 'SINIKAN', 'AMON JOSELINE', '1983-10-08', 'CIV', 'CIV', 33, 745, 1, 'Centre de santé communautaire de AHUA', NULL, 5, NULL, 'GRH à SEMINAN ASSURANCE', 'ressources humaines', '0708008934', '0708008934', 'joseline.s@gmail.com', 'KOUAME', 1, 'ARISTIDE', NULL, 'BLEON', 'CIV', '', 'PAULINE', NULL, 'oui', 'SINANKAN', 'YACINTHE', 'PERMIS-00009', 'CIV', '', 1, NULL, 3, 79, 1, 'C 0132 4574 78', '2021-05-12 06:55:29', '2021-05-12 06:55:29', NULL, NULL, NULL, NULL, 1),
-	(5, 'CRCI/2020/1/4', '', '', 'Mr', 'Aka', 'Fabrice', '1985-04-11', 'CIV', NULL, 1, 5, 1, NULL, NULL, 6, 'asthme', 'proprietaire gerant de pharmacie', 'pharmacienne', '45000054', '03030030', 'akal@gmail.com', 'N\'guessan', 1, 'Augustin', '04120020', 'NON', '0', NULL, 'NON', '04120020', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 3, 1, 2, 1, 'C 0012 5435 89', '2020-04-19 08:37:59', '2020-04-19 08:37:59', NULL, NULL, NULL, NULL, 1),
-	(11, 'CRCI/2020/C1/11', '', '', 'Mr', 'Ahoule', 'Aka leandre', '1996-02-01', 'FRA', NULL, 1, 1, 1, NULL, NULL, 8, 'asthme', 'responsable finance', 'pharmacienne', '45263626', NULL, 'ahou@gmail.com', 'Djamara', 1, 'Edjuhe Cyrille', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-19 17:18:51', '2020-04-19 17:18:51', NULL, NULL, NULL, NULL, 1),
-	(12, 'CRCI/2020/C1/12', '', '', 'Mlle', 'Sidibe', 'Salimata', '1991-04-11', 'CIV', 'CIV', 2, 5, 1, NULL, NULL, 1, NULL, 'controle de gestion', 'pharmacienne', '57000075', NULL, 'sidibesali@gmail.com', 'Kante', 1, 'Fatoumata', '01014395', 'NON', '0', NULL, 'NON', '01014395', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 3, 1, 'C 0012 5435 89', '2020-04-19 17:28:29', '2020-04-19 17:28:29', NULL, NULL, NULL, NULL, 1),
-	(15, 'CRCI/2020/C1/15', '', '', 'Mr', 'N\'cho', 'Aka leandre', '1854-04-10', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'doctorant en mathematique', '45263626', NULL, 'akal@gmail.com', 'Djamara', 1, 'Edjuhe Cyrille', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-25 23:11:36', '2020-04-25 23:11:36', NULL, NULL, NULL, NULL, 0),
-	(17, 'CRCI/2020/C1/17', '', '', 'Mr', 'Djamara', 'Edjuhe Cyrille', '1986-04-10', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'doctorant en mathematique', '45263626', NULL, 'sienmarie@yahoo.fr', 'Djamara', 1, 'Edjuhe Cyrille', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 03:45:52', '2020-04-26 03:45:52', NULL, NULL, NULL, NULL, 0),
-	(18, 'CRCI/2020/C1/18', '', '', 'Mr', 'Djamara', 'Edjuhe Cyrille', '1985-02-10', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'doctorant en mathematique', '45263626', NULL, 'mikimiki@gmail.com', 'Djamara', 1, 'Edjuhe Cyrille', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 03:49:19', '2020-04-26 03:49:19', NULL, NULL, NULL, NULL, 0),
-	(19, 'CRCI/2020/C1/19', '', '', 'Mr', 'N\'cho', 'Aka leandre', '1985-04-10', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'gerant de vitrine pour verre pharmaceutique', 'doctorant en mathematique', '45263626', NULL, 'ahou@gmail.com', 'N\'guessan', 1, 'Jacquelline', '04120020', 'NON', '0', NULL, 'NON', '04120020', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 03:54:34', '2020-04-26 03:54:34', NULL, NULL, NULL, NULL, 1),
-	(20, 'CRCI/2020/C1/20', '', '', 'Mr', 'Aka', 'Jean Marie', '2015-12-10', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'doctorant en mathematique', '45263626', '03030030', 'ahou@gmail.com', 'N\'guessan', 1, 'Augustin', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 03:57:44', '2020-04-26 03:57:44', NULL, NULL, NULL, NULL, 0),
-	(21, 'CRCI/2020/C1/21', '', '', 'Mr', 'N\'cho', 'Edjuhe Cyrille', '1875-04-10', 'ALB', 'ARE', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'doctorant en mathematique', '45263626', NULL, 'ahou@gmail.com', 'N\'guessan', 1, 'Abou', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 04:09:14', '2020-04-26 04:09:14', NULL, NULL, NULL, NULL, 1),
-	(22, 'CRCI/2020/C1/22', '', '', 'Mr', 'Aka', 'Fortune', '1985-12-05', 'AND', 'AGO', 1, 1, 1, NULL, NULL, 1, NULL, 'responsable finance', 'doctorant en mathematique', '45263626', NULL, 'ahou@gmail.com', 'Aloiui', 1, 'Cyrille', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 04:12:24', '2020-04-26 04:12:24', NULL, NULL, NULL, NULL, 1),
-	(23, 'CRCI/2020/C1/23', '', '', 'Mr', 'Antoine', 'Gaspard', '1986-02-10', 'ITA', 'MLI', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'chirurgien', '45263626', NULL, 'akal@gmail.com', 'Djamara', 1, 'Edjuhe Cyrille', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-26 04:58:43', '2020-04-26 04:58:43', NULL, NULL, NULL, NULL, 1),
-	(7, 'CRCI/2020/C1/6', '', '', 'Mr', 'Sery', 'Oscar', '1986-04-11', 'FRA', NULL, 1, 1, 1, NULL, NULL, 1, NULL, 'professeur du privé', 'doctorant en mathematique', '54001221', NULL, 'oscarsery@gmail.com', 'ahou', 1, 'Gislene', '01014395', 'NON', '0', NULL, 'NON', '01014395', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 2, 1, 2, 1, 'C 0012 5435 89', '2020-04-19 08:50:19', '2020-04-19 08:50:19', NULL, NULL, NULL, NULL, 1),
-	(10, 'CRCI/2020/C1/8', '', '', 'Mr', 'alexou', 'Jean leandre', '1986-04-10', 'ABW', NULL, 1, 1, 1, NULL, NULL, 1, NULL, 'gerant de vitrine pour verre pharmaceutique', 'chirurgien', '57000075', NULL, '123@gmail.com', 'N\'guessan', 1, 'Edjuhe Cyrille', '04120020', 'NON', '0', NULL, 'NON', '04120020', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', '2020-04-19 17:14:02', '2020-04-19 17:14:02', NULL, NULL, NULL, NULL, 1),
-	(13, 'CRCI/2020/C21/13', '', '', 'Mr', 'Attebi', 'Zeriga Alphonse', '1959-03-14', 'CIV', 'CIV', 229, 1, 1, NULL, NULL, 31, NULL, 'jardinier', 'jardinerie', '03781898', NULL, NULL, 'Ehouman', 1, 'Janine', '45051050', 'NON', '0', NULL, 'NON', '45051050', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 12, 1, 'C 0012 5435 89', '2020-04-23 21:28:29', '2020-04-23 21:28:29', NULL, NULL, NULL, NULL, 1),
-	(6, 'CRCI/2020/C3/6', '', '', 'Mr', 'Kone', 'Cedric', '1986-02-19', 'MLI', NULL, 1, 1, 1, NULL, NULL, 1, NULL, 'professeur du privé', 'doctorant en mathematique', '45263626', NULL, 'konec@yahoo.fr', 'N\'guessan', 1, 'Augustin', '07950428', 'NON', '0', NULL, 'NON', '07950428', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 2, 1, 3, 1, 'C 0012 5435 89', '2020-04-19 08:44:29', '2020-04-19 08:44:29', NULL, NULL, NULL, NULL, 1),
-	(14, 'CRCI/2020/C46/14', '', '', 'Mr', 'Kambire', 'Ollo Martial', '1985-07-10', 'CIV', 'BFA', 469, 473, 1, NULL, NULL, 165, NULL, 'enseignant repetiteur', 'etudiant', '07008575', NULL, NULL, 'Fransou', 1, 'Jacquelline', '41003202', 'NON', '0', NULL, 'NON', '41003202', NULL, 'NON', 'NON', 'NON', '0', NULL, 3, 2, 1, 46, 1, 'C 0012 5435 89', '2020-04-23 21:48:19', '2020-04-23 21:48:19', NULL, NULL, NULL, NULL, 1),
-	(73, 'DREPANOLE', 'F-3256', 'NON', 'Mr', 'SYLLA', 'MOCTAR', '1985-01-11', 'CIV', 'CIV', 14, 22, 1, NULL, 1, 27, NULL, NULL, NULL, '02345677', NULL, 'riendetout@gmail.com', 'ACEBO', 1, 'HERMAN', '67870007', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 28, 1, 80, 1, 'C 0890 0678 57', '2020-12-15 12:01:54', '2020-12-15 12:01:54', NULL, NULL, NULL, NULL, 1),
-	(69, 'DRETINAZ', 'F-7678 7809 5', 'NON', 'Mr', 'AHOU', 'JEANNE', '1987-02-10', 'CIV', 'CIV', 5, 0, 1, NULL, 2, 9, NULL, NULL, NULL, '06789800', NULL, NULL, 'GBAPE', 1, 'BEATRICE', '45678798', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 6, 1, 80, 1, 'C 0988 6456 00', '2020-12-15 11:19:18', '2020-12-15 11:19:18', NULL, NULL, NULL, NULL, 1),
-	(3, 'L0DER21', '', '', 'Mlle', 'Abla', 'Poukou Enriette', '1984-04-11', 'CIV', NULL, 1, 1, 1, NULL, NULL, 1, 'asthme', 'proprietaire gerant de pharmacie', 'pharmacienne', '57000075', NULL, 'ablapokou@gmail.com', 'N\'guessan', 1, 'Servais', '74859001', 'NON', '0', NULL, 'NON', '74859001', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 3, 1, 2, 1, 'C 0012 5435 89', '2020-04-18 22:19:43', '2020-04-18 22:19:43', NULL, NULL, NULL, NULL, 1),
-	(76, 'sqsedrf', 'derf', 'NON', 'Mr', 'SEKA', 'BORIS', '1975-08-09', 'CIV', 'CIV', 19, 14, 1, NULL, 1, 20, NULL, NULL, NULL, '02897866', NULL, NULL, 'ATTIEGBA', 1, 'JEAN FIRMIN', '85678876', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 3, 1, 1, 80, 1, 'C 8756 2345 1', '2020-12-15 14:44:16', '2020-12-15 14:44:16', NULL, NULL, NULL, NULL, 1),
-	(82, 'XX-TRE-0098', 'F-23142', 'NON', 'Mr', 'CHAKA', 'ZULU', '1989-11-09', 'CIV', 'CIV', 1, 18, 1, NULL, 2, 23, NULL, NULL, NULL, '08765645', NULL, NULL, 'KABLAN', 1, 'DUMAS', '67873456', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 47, 1, 80, 1, 'C 8978 5687 9', '2020-12-15 16:54:14', '2020-12-15 16:54:14', NULL, NULL, NULL, NULL, 1);
+REPLACE INTO `personne` (`idpersonne`, `personne_immat`, `personne_numero_fiche`, `personne_nouvel_adherent`, `personne_civilite`, `codepostale`, `personne_nom`, `personne_prenom`, `personne_date_naiss`, `personne_pays_naiss`, `personne_pays_nationalite`, `personne_ville_naiss`, `personne_commune_naiss`, `personne_ville_habitation`, `lieuDeNaissance`, `personne_situation_mat`, `personne_commune_habitation`, `personne_antecedent_medic`, `personne_activite`, `personne_qualification`, `personne_telephone_1`, `personne_telephone_2`, `personne_telephone_3`, `personne_quartier_habitation`, `personne_email`, `personne_nom_urgence`, `personne_profil`, `personne_prenom_urgence`, `personne_tel_urgence`, `personne_nom_mere`, `personne_nationalite_mere`, `personne_etat_mere`, `personne_prenom_mere`, `personne_email_urgence`, `personne_avoir_permis`, `personne_nom_pere`, `personne_prenom_pere`, `personne_numero_permis`, `personne_nationalite_pere`, `personne_etat_pere`, `fonctionCR_idfonctionCR`, `profession_idprofession`, `groupeSanguin`, `comiteActuel`, `TypePiece`, `NumerPiece`, `personne_niveau_etude`, `personne_ville_urgence`, `personne_commune_urgence`, `personne_quartier_urgence`, `personne_top_valide`, `created_at`, `updated_at`) VALUES
+	(64, '0000436', 'F - 435009', 'NON', 'Mr', '', 'ADIKO', 'YABO CHARLES', '1990-05-12', 'CIV', 'CIV', 299, 320, 1, NULL, 1, 3, NULL, 'medecin interne au CHU de Tiebissou', 'medecine generaliste', '04890089', NULL, NULL, NULL, NULL, 'SERY', 1, 'DORCAS', '04357809', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 3, 6, 80, 1, 'C 5647 9089 34', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(67, '00007567', 'F-2145 8768 34', 'NON', 'Mr', '', 'CISSE', 'BAMORY', '1987-04-02', 'CIV', 'CIV', 19, 168, 1, NULL, 0, 0, NULL, NULL, 'coordonier', '02345656', NULL, NULL, NULL, 'cisse@gmail.com', 'OULAI', 1, 'ADAMS', '44567787', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 28, 1, 80, 1, 'C 0899 9987 90', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(72, '00007867', 'F-76567', 'NON', 'Mr', '', 'AKA', 'JEREMIE', '1978-02-11', 'CIV', 'CIV', 1, 16, 1, NULL, 1, 8, NULL, NULL, NULL, '08924355', NULL, NULL, NULL, 'ser@gmail.com', 'ATTIEN', 1, 'SILLAS', '02134343', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 4, 39, 5, 80, 1, 'C 8978 5545 90', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(74, '000576', 'F-3344', 'NON', 'Mr', '', 'GREMINO', 'ADOLPHE', '1978-08-07', 'CIV', 'CIV', 18, 44, 37, NULL, 1, 18, NULL, NULL, NULL, '08900087', NULL, NULL, NULL, NULL, 'SIDIBE', 1, 'MARIAME', '04342612', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 134, 3, 80, 1, 'C 9865 0989 34', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(68, '0008987', 'F-4234', 'NON', 'Mr', '', 'FROKI', 'FREGUS', '1986-03-09', 'CIV', 'CIV', 75, 4, 1, NULL, 1, 4, NULL, NULL, NULL, '03789009', NULL, NULL, NULL, NULL, 'ADIGBATE', 1, 'JONAS', '09878767', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 18, 1, 80, 1, 'C 8978 7867 99', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(70, '0089RT', 'F-XDER', 'NON', 'Mr', '', 'NIAMIEN', 'CEDRIC', '1977-07-08', 'CIV', 'CIV', 1, 3, 1, NULL, 1, 13, NULL, NULL, NULL, '09897632', NULL, NULL, NULL, NULL, 'DIABATE', 1, 'KADER', '78980090', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 3, 169, 1, 80, 1, 'C 9890 5676 78', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(66, '00989', 'F-54639', 'NON', 'Mr', '', 'DIABY', 'MATROU', '1980-09-03', 'CIV', 'CIV', 1, 3, 1, NULL, 1, 3, NULL, NULL, 'PATISSIER', '08908800', NULL, NULL, NULL, 'diabymatrou@gmail.com', 'N\'GUETTA', 1, 'CARINE', '08780089', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 25, 1, 80, 1, 'C 0890 4568 23', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(59, 'ANCIEN-MAT-2019-ZPQ', '2310098CDZ', 'NON', 'Mr', '', 'MADINGA', 'Aliou Stephane', '1990-09-21', 'CIV', 'CIV', 532, 553, 1, NULL, 0, 0, NULL, NULL, 'commerçante magasinier', '43566500', NULL, NULL, NULL, 'madinga@gmail.com', 'SIOULA', 1, 'Aliou Stephane', '43767888', NULL, 'CIV', '', NULL, NULL, 'OUI', NULL, NULL, 'P-78980', 'CIV', '', 1, 4, 1, 2, 1, 'C 6574 7867 34', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(71, 'ANTI-ROUILLE', 'F-9876 6545 6', 'NON', 'Mr', '', 'BONI', 'ANGELO', '1978-08-02', 'CIV', 'CIV', 1, 4, 1, NULL, 1, 4, NULL, NULL, NULL, '01012343', NULL, NULL, NULL, NULL, 'VENON', 1, 'ACHILE', '04324566', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 3, 35, 4, 80, 1, 'C 0890 5467 33', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(77, 'AZERTYUIOP', 'F-0978²', 'NON', 'Mr', '', 'KANGA', 'ALBERT', '1978-03-10', 'CIV', 'CIV', 1, 23, 1, NULL, 0, 42, NULL, NULL, NULL, '03457877', NULL, NULL, NULL, NULL, 'ACHI', 1, 'LOUIS', '03567745', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 183, 1, 1, 1, 'C 8669 4356 21', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(87, 'CRCI 2020 C67 2435', '', 'NON', 'Mr', '', 'BLIN HOUIN', 'Bruno Valérie', '1987-04-12', 'CIV', 'CIV', 1, 5, 1, 'hopital Adjamé bingerville', 0, 5, NULL, NULL, 'expert en structuration financière', '0545000054', '0103030030', '2122340089', 'Nouvelle gare d\'adjamé bingerville', 'sirdecotedivoire@sir.ci', 'KOFFI', 1, 'AYA JULIETTE', '0574859001', 'BLEU', 'CIV', '', 'TATIANA', NULL, 'NON', 'BLIN HOUIN', 'Marcel', 'P-2345', 'CIV', '', 1, NULL, 3, 79, 1, 'C-026399', 'BAC + 5', NULL, NULL, 'BINGERVILLE, vers le petit marché', 1, '2021-06-06 13:03:02', '2021-06-06 13:03:02'),
+	(79, 'CRCI-1978-56-000067', 'F-7654 7876 89', 'NON', 'Mr', '', 'DERICK', 'JOASHIN', '1976-07-21', 'CIV', 'CIV', 1, 0, 1, NULL, 1, 2, NULL, NULL, NULL, '09890078', NULL, NULL, NULL, NULL, 'SEKA', 1, 'NORBERT', '09786675', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 1, 1, 80, 1, 'C 0890 7867 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(81, 'CRCI-1980-5-00089', 'F-32408', 'NON', 'Mr', '', 'KOUAKOU', 'JEAN FIRMIN', '1976-03-21', 'CIV', 'CIV', 1, 22, 1, NULL, 1, 2, NULL, NULL, NULL, '07675688', NULL, NULL, NULL, NULL, 'SOLO', 1, 'YVETTE', '65453345', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 3, 15, 1, 80, 1, 'C 0089 6568 9', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(65, 'CRCI-2008-34-00897', 'F-89008', 'NON', 'Mr', '', 'ADEKA', 'NEGABO JOACHIN', '1978-04-13', 'CIV', 'CIV', 1088, 4, 1, NULL, 1, 3, NULL, 'entrepreneur', 'commerçante de produit phyto', '03435566', NULL, NULL, NULL, NULL, 'ADEGUE', 1, 'SIMPLICE', '09008900', NULL, 'CIV', '', NULL, NULL, 'OUI', NULL, NULL, 'P-3455V98', 'CIV', '', 1, 4, 1, 80, 1, 'C 5647 8769 43', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(75, 'CRCI-2014-35-00865', 'F-3467', 'NON', 'Mr', '', 'DIAKITE', 'BOUBA', '1978-09-12', 'FRA', 'CIV', 1, 0, 1, NULL, 0, 22, NULL, NULL, NULL, '05657567', NULL, NULL, NULL, NULL, 'SERY', 1, 'ALBERT', '03456754', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 28, 1, 80, 1, 'C 8768 3463 21', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(78, 'CRCI-2017-43-008976', 'F-35609', 'NON', 'Mr', '', 'ZERBO', 'ZEPHIRIN', '1977-09-10', 'BFA', 'CIV', 1, 0, 1, NULL, 1, 6, NULL, NULL, NULL, '07675645', NULL, NULL, NULL, NULL, 'ADIKO', 1, 'CLEMENT', '89776576', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 45, 1, 80, 1, 'C 5674 9867 34', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(80, 'CRCI-2018-21-000067', 'F-0098', 'NON', 'Mr', '', 'BEDIA', 'CLEMENT', '1985-03-12', 'CIV', 'CIV', 1, 23, 1, NULL, 1, 8, NULL, NULL, NULL, '08907786', NULL, NULL, NULL, NULL, 'DIABY', 1, 'ABEL', '78987789', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 24, 1, 80, 1, 'C 7685 4653 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(61, 'CRCI-2020-C-', '8689ZESE', 'OUI', 'Mr', '', 'BIDOUBA', 'Jean Charles', '1987-05-23', 'CIV', 'CIV', 997, 1018, 1, NULL, 0, 4, NULL, NULL, 'expert en communication', '43567766', NULL, NULL, NULL, NULL, 'KOUROUMA', 1, 'ADAMA', '89009009', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 6, 1, NULL, 4, 'ERFD-0994', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(62, 'CRCI-2020-C-0062', '2310098CDF', 'OUI', 'Mr', '', 'HENRY', 'FORCAS', '1987-04-12', 'CIV', 'CIV', 1, 1, 1, NULL, 0, 1, NULL, NULL, 'boy cuisinier', '01723687', NULL, NULL, NULL, NULL, 'KOUROUMA', 1, 'ADAMA', '08900091', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 1, 1, NULL, 1, 'C 0890 5676 98', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(16, 'CRCI-2020-C1-16', '', '', 'Mr', '', 'Djamara', 'Edjuhe Cyrille', '1995-12-04', 'CIV', 'ABW', 1, 1, 1, NULL, 0, 1, NULL, 'gerant de vitrine pour verre pharmaceutique', 'doctorant en mathematique', '45263626', NULL, NULL, NULL, NULL, 'Djamara', 1, 'Edjuhe Cyrille', '41256300', 'NON', 'CIV', '', 'NON', 'drf@gmail.com', 'NON', 'NON', 'NON', '', 'CIV', '', 1, 4, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(24, 'CRCI-2020-C1-24', '', '', 'Mr', '', 'Antonie', 'Jean Cedric', '1986-04-10', 'MLI', 'MLI', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'chirurgien', '45263626', NULL, NULL, NULL, 'akal@gmail.com', 'N\'Gaman', 1, 'Fabrice', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(25, 'CRCI-2020-C1-25', '', '', 'Mr', '', 'Assouan', 'Alfred', '1996-02-10', 'BFA', 'BFA', 1, 1, 1, NULL, NULL, 8, NULL, 'proprietaire gerant de pharmacie', 'pharmacienne', '45000054', NULL, NULL, NULL, 'mikimiki@gmail.com', 'Aka', 1, 'Houle', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(26, 'CRCI-2020-C1-26', '', '', 'Mr', '', 'Eboue', 'Severin', '1965-05-14', 'CIV', 'BDI', 1, 1, 1, NULL, 1, 1, NULL, 'proprietaire gerant de pharmacie', 'pharmacienne', '45263626', NULL, NULL, NULL, 'ablapokou@gmail.com', 'N\'cho', 1, 'Severin', '41256300', 'NON', 'CIV', '', 'NON', NULL, 'NON', 'NON', 'NON', '', 'CIV', '', 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(27, 'CRCI-2020-C1-27', '', '', 'Mr', '', 'Aka', 'Jean Marie', '1986-02-10', 'BFA', 'BFA', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'pharmacienne', '45263626', NULL, NULL, NULL, 'mikimiki@gmail.com', 'N\'goran', 1, 'Clovis', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(28, 'CRCI-2020-C1-28', '', '', 'Mr', '', 'Sery', 'Gaspard Jean Edgar', '1958-04-12', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, 'accident', 'vendeur de poulet au marché', 'commerçante', '57000075', NULL, NULL, NULL, 'ahou@gmail.com', 'N\'Gaman', 1, 'Augustin', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 4, 1, 1, 1, 'C 0012 3025 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(29, 'CRCI-2020-C1-29', '', '', 'Mr', '', 'Sery', 'Gaspard', '1985-10-10', 'MLI', 'MLI', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'pharmacienne', '45263626', NULL, NULL, NULL, 'akal@gmail.com', 'N\'Gaman', 1, 'Clovis', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(31, 'CRCI-2020-C1-31', '', '', 'Mr', '', 'Becho', 'Jean Brice', '1985-05-10', 'ARE', 'AGO', 1, 1, 1, NULL, NULL, 1, NULL, 'gerant de vitrine pour verre pharmaceutique', 'pharmacienne', '45263626', NULL, NULL, NULL, 'ahou@gmail.com', 'N\'Gaman', 1, 'Clovis', '74859001', 'NON', '0', NULL, 'NON', '74859001', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(32, 'CRCI-2020-C1-32', '', '', 'Mr', '', 'Sery', 'Gaspard', '1996-10-04', 'FRA', 'CIV', 1, 1, 1, NULL, NULL, 1, NULL, NULL, NULL, '45263626', NULL, NULL, NULL, 'ahou@gmail.com', 'N\'choa', 1, 'Achile', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 0, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(33, 'CRCI-2020-C1-33', '', '', 'Mr', '', 'Digbeu', 'Dallo Jean claude le Roi', '1986-02-01', 'CIV', 'CIV', 788, 809, 1, 'Village situé à 45 km du campement BOIGNY', 0, 4, NULL, 'gerant de vitrine pour verre pharmaceutique de garde', 'pharmacienne', '45263626', NULL, NULL, NULL, 'digbeu1er@gmail.com', 'N\'goran', 1, 'Dallo Jean claude le Roi', '04120020', 'NON', 'CIV', '', 'NON', 'ngorandallo@yahoo.fr', 'NON', 'NON', 'NON', '', 'CIV', '', 1, 3, 1, 1, 2, 'P 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(34, 'CRCI-2020-C1-34', '', '', 'Mr', '', 'Aka', 'Cedric', '1986-10-04', 'ITA', 'CIV', 1, 1, 1, NULL, NULL, 6, NULL, NULL, NULL, '45263626', '03030030', NULL, NULL, 'mikimiki@gmail.com', 'N\'cho', 1, 'Achile', '74859001', 'NON', '0', NULL, 'NON', '74859001', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(35, 'CRCI-2020-C1-35', '', '', 'Mr', '', 'Enga', 'Georges Mikael', '1998-04-10', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire du maquis les VALLET', 'Entrepreneur', '57000075', '09809900', NULL, NULL, 'engageorges@gmail.com', 'Auleguer', 1, 'Patrick', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 0580 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(36, 'CRCI-2020-C1-36', '', '', 'Mme', '', 'Angaman', 'Marie Jeanne', '1998-05-02', 'CIV', 'CIV', 229, 4, 229, NULL, NULL, 250, NULL, 'proprietaire d\'un salon de couture', 'couturière', '06060006', NULL, NULL, NULL, NULL, 'N\'guetta', 1, 'Pierre Marie', '04150051', 'NON', '0', NULL, 'NON', '04150051', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 0, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(40, 'CRCI-2020-C1-40', '', '', 'Mr', '', 'DIEME', 'Aichatou', '1990-03-01', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'commerçante', 'commerçante', '87900099', NULL, NULL, NULL, NULL, 'YAO', 1, 'Rita', '09999099', 'NON', '0', NULL, 'NON', '09999099', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0985 3420 93', NULL, NULL, NULL, NULL, 0, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(52, 'CRCI-2020-C1-52', '', '', 'Mr', '', 'WADJA', 'Guy Babylas', '1985-06-02', 'CIV', 'CIV', 1, 6, 1, 'CHU de cocody', 1, 8, NULL, 'cableur electrique', 'electricien', '09809000', NULL, NULL, NULL, 'wadjas@gmail.com', 'DJIBRIL', 1, 'Kader', '08907800', 'KOFFI', 'CIV', '', 'Olga', NULL, 'OUI', 'WADJAS', 'Albert', 'PERMIS-098900', 'CIV', '', 3, 6, 1, 1, 3, 'AATT-0989', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(53, 'CRCI-2020-C1-53', '', '', 'Mr', '', 'BOUBA', 'BOZZA', '1987-09-12', 'CIV', 'CIV', 1, 4, 1, 'PARIS VILLAGE', 1, 1, NULL, NULL, 'professeur de comptabililté', '21348984', NULL, NULL, NULL, NULL, 'GNAMKEY', 1, 'JEAN EDOUARD', '08900090', NULL, 'CIV', '', NULL, 'serti@gmail.com', 'NON', NULL, NULL, '', 'CIV', '', 1, 1, 1, 1, 1, 'C 0988 7657 90', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(55, 'CRCI-2020-C1-55', '2310098', 'Non', 'Mr', '', 'BOUABRE', 'JEAN EUDE', '1984-04-10', 'CIV', 'CIV', 127, 148, 1, NULL, 1, 3, NULL, NULL, 'boy cuisinier', '21348984', NULL, NULL, NULL, 'bouabre@gmail.com', 'GNAMKEY', 1, 'JEAN EDOUARD', '08900091', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 5, 1, 1, 1, 'C 0989 4434 12', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(39, 'CRCI-2020-C13-39', '', '', 'Mme', '', 'DIEME', 'Aichatou', '1990-03-01', 'CIV', 'CIV', 208, 229, 1, 'A l\'hoptal regional', NULL, 1, NULL, 'commerçante', 'commerçante', '87900099', NULL, NULL, NULL, 'monami@gmail.com', 'YAO', 1, 'Aichatou', '47008207', 'NON', '0', NULL, 'NON', 'monami@gmail.com', NULL, 'NON', 'NON', 'NON', '0', NULL, 2, 1, 1, 22, 3, 'C 0985 3420 98', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(38, 'CRCI-2020-C2-38', '', '', 'Mr', '', 'AKPOUE', 'Eliasson Jean Firmin', '1987-06-09', 'CIV', 'CIV', 1, 1, 1, NULL, NULL, 8, 'accident de la circulation qui a causé un problème dans la jambe, utilisation de prothèse', 'responsable consultation à la clinique les BETERS', 'médecin généraliste', '09008999', '05253505', NULL, NULL, 'jeanf@gmail.com', 'Zamblé', 1, 'Richard', '09809000', 'NON', '0', NULL, 'NON', '09809000', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 3, 1, 2, 1, 'C 0107 0147 79', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(41, 'CRCI-2020-C2-41', '', '', 'Mr', '', 'GOBE', 'GUIZON Jean Antoinne', '1982-12-14', 'CIV', 'CIV', 115, 136, 1, 'A l\'hopital général, derrière la gendarmerie', NULL, 4, NULL, 'chef de chantier', 'technicien en batiment', '01989008', NULL, NULL, NULL, 'godejean@gmail.com', 'Ahou', 1, 'Josephine', '09890098', 'Niamke', 'CIV', 'decede', 'Helene', NULL, 'OUI', 'Gode', 'Jean Charles', 'XYZ-0989-2011', 'CIV', 'decede', 1, 6, 3, 2, 1, 'C 098790 786', NULL, NULL, NULL, NULL, 0, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(42, 'CRCI-2020-C2-42', '', '', 'Mr', '', 'GOBE', 'GUIZON Jean Antoinne', '1982-12-14', 'CIV', 'CIV', 115, 136, 1, 'A l\'hopital général, derrière la gendarmerie', NULL, 4, NULL, 'chef de chantier', 'technicien en batiment', '01989008', NULL, NULL, NULL, 'godejean@gmail.com', 'Ahou', 1, 'Josephine', '09890098', 'Niamke', 'CIV', 'decede', 'Helene', NULL, 'OUI', 'Gode', 'Jean Charles', 'XYZ-0989-2011', 'CIV', 'decede', 1, 6, 3, 2, 1, 'C 098790 786', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(43, 'CRCI-2020-C2-43', '', '', 'Mr', '', 'GOBE', 'GUIZON Jean Antoinne', '1954-12-14', 'CIV', 'CIV', 115, 136, 115, 'A l\'hopital général, derrière la gendarmerie', NULL, 136, NULL, NULL, 'electricien', '45000054', NULL, NULL, NULL, 'godejean@gmail.com', 'ahou', 1, 'Helene', '74859001', 'Niamkey', 'CIV', 'decede', 'Elisabeth', NULL, 'OUI', 'GODE', 'Jean Charles', 'XYT-2012-43H', 'CIV', 'decede', 1, 6, 4, 2, 1, 'C 09 8765', NULL, NULL, NULL, NULL, 0, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(44, 'CRCI-2020-C2-44', '', '', 'Mr', '', 'GODE', 'Jean Benoit', '1967-12-14', 'CIV', 'CIV', 115, 136, 1, 'A l\'hopital général', NULL, 4, NULL, 'chef maçon', 'Maçonnerie', '09809900', NULL, NULL, NULL, 'godejeanb@yahoo.fr', 'Ahou', 1, 'Helene', '04350890', 'Ezoumian', 'CIV', 'decede', 'Justine', NULL, 'OUI', 'Gode', 'Baptiste', 'SDF-2435', 'CIV', 'decede', 1, 6, 5, 2, 1, 'C 9067 4236', NULL, NULL, NULL, NULL, 0, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(45, 'CRCI-2020-C2-45', '', '', 'Mr', '', 'GODE', 'BLEOU Martin', '1953-03-12', 'CIV', 'CIV', 115, 136, 1, 'A l\'hopital général', NULL, 4, NULL, 'instituteur', 'technicien en batiment', '45000054', NULL, NULL, NULL, 'godejean@yahoo.fr', 'Ahou', 1, 'Helene', '07950429', 'NIAMKEY', 'CIV', 'decede', 'Priscile', NULL, 'OUI', 'GODE', 'Baptiste', 'PERMIS-RTD-2012', 'CIV', 'decede', 1, 6, 1, 2, 1, 'C 7675 9890 09', NULL, NULL, NULL, NULL, 0, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(46, 'CRCI-2020-C2-46', '', '', 'Mr', '', 'GODE', 'BLEOU Martin', '1953-03-12', 'CIV', 'CIV', 115, 136, 1, 'A l\'hopital général', NULL, 4, NULL, 'instituteur', 'technicien en batiment', '45000054', NULL, NULL, NULL, 'godejean@yahoo.fr', 'Ahou', 1, 'Helene', '07950427', 'NIAMKEY', 'CIV', 'decede', 'Priscile', NULL, 'OUI', 'GODE', 'Baptiste', 'PERMIS-RTD-2012', 'CIV', 'decede', 1, 6, 1, 2, 1, 'C 7675 9890 09', NULL, NULL, NULL, NULL, 0, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(54, 'CRCI-2020-C2-54', '2310098', 'Non', 'Mr', '', 'BOUKARY', 'YSSOUF', '1978-03-12', 'CIV', 'CIV', 1, 6, 1, 'KOUMASSI DIVO', 1, 6, NULL, NULL, 'professeur de comptabililté', '21348984', NULL, NULL, NULL, 'boukary@gmail.com', 'GNAMKEY', 1, 'JEAN EDOUARD', '08900090', NULL, 'CIV', '', NULL, 'serti@gmail.com', 'NON', NULL, NULL, '', 'CIV', '', 1, 1, 1, 2, 1, 'C 0890 5676 98', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(57, 'CRCI-2020-C2-57', '9989009', 'Non', 'Mr', '', 'DEPRI', 'Jeanne Esso Martine', '1976-03-21', 'CIV', 'CIV', 997, 1018, 1, NULL, 1, 2, NULL, NULL, 'auditeur en système energetique', '08900089', NULL, NULL, NULL, NULL, 'KOUAKOU', 1, 'HILAIRE', '02345545', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 6, 1, 2, 1, 'C 7608 3452 23', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(58, 'CRCI-2020-C2-58', '2310098CDZ', 'Non', 'Mr', '', 'SANGARE', 'IBRAHIM', '1993-03-11', 'CIV', 'CIV', 1, 4, 1, NULL, 0, 4, NULL, NULL, 'commerçante magasinier', '01723687', NULL, NULL, NULL, 'babasangare@gmail.com', 'CHERIF', 1, 'OUSMANE', '45657566', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 4, 1, 2, 1, 'C 5674 0989 34', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(60, 'CRCI-2020-C2-60', 'FICHE-okuj', 'OUI', 'Mr', '', 'YORO', 'DAVID', '1976-07-05', 'CIV', 'CIV', 3, 24, 1, NULL, 1, 4, NULL, NULL, 'commerçante magasinier', '78880888', NULL, NULL, NULL, NULL, 'SIOULA', 1, 'ADELINE', '02345545', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 1, 1, 2, 4, 'C 8987 8874 32', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(56, 'CRCI-2020-C3-56', '555000055', 'Non', 'Mr', '', 'SYLLA', 'ASSANE', '1975-09-11', 'CIV', 'CIV', 1, 1075, 1, NULL, 1, 1, NULL, NULL, NULL, '56788700', NULL, NULL, NULL, 'syllaassane@gmail.com', 'CHERIF', 1, 'MOUSSA', '08900091', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 1, 1, 3, 1, 'C 0890 5676 98', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(86, 'CRCI-2020-C30-00897', '', 'NON', 'Mr', '', 'DJAMARA', 'CYRILLE', '1992-12-05', 'CIV', 'CIV', 1, 8, 1, 'Marcory, hopital general de marcory', 1, 5, NULL, 'analyste programmeur chez ASCEND TECHNOLOGY', 'chef d\'équipe projet', '0101014391', '0758007387', '0102435467', 'Koumassi quartier sopim', 'djamaracyrille@gmail.com', 'BOKO', 1, 'SYLVIANE', '0707950428', 'KEITA', 'CIV', '', 'RAIMATA', NULL, 'OUI', 'DJAMARA', 'N\'DRI BERTIN', 'PERMI-X465', 'CUW', '', 1, 121, 3, 79, 1, 'C 0107 0147 79', 'BAC + 5', NULL, NULL, 'ABOBO PK', 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(63, 'CRCI-2020-C34-0001', 'F-34536', 'OUI', 'Mlle', '', 'M\'PONOU', 'MARINETTE', '1987-12-12', 'CIV', 'CIV', 5, 26, 1, 'vers le marché aux puces', 0, 15, NULL, NULL, 'patissière', '08900089', NULL, NULL, NULL, NULL, 'KOFFI', 1, 'KOFFI MATHIAS', '09897887', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 6, 5, 80, 1, 'C 7678 3243 90', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(30, 'CRCI-2020-C4-30', '', '', 'Mr', '', 'Aka', 'Louis Paul', '1986-12-04', 'BDI', 'MWI', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'pharmacienne', '57000075', NULL, NULL, NULL, 'ahou@gmail.com', 'N\'goran', 1, 'Edjuhe Cyrille', '04120020', 'NON', '0', NULL, 'NON', '04120020', NULL, 'NON', 'NON', 'NON', '0', NULL, 2, 1, 1, 4, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(37, 'CRCI-2020-C4-37', '', '', 'Mlle', '', 'Sery', 'Jeannette', '1984-12-14', 'CIV', 'CIV', 321, 342, 321, NULL, NULL, 342, 'accident de la circulation sur la chaussée', 'cuisinière', 'entrepreuneur', '04140441', NULL, NULL, NULL, NULL, 'Digbeu', 1, 'Alphonse', '05250552', 'NON', '0', NULL, 'NON', '05250552', NULL, 'NON', 'NON', 'NON', '0', NULL, 2, 1, 1, 4, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(51, 'CRCI-2020-C71-51', '', '', 'Mr', '', 'GNEKPA', 'Dekpa Norbert', '1972-02-18', 'CIV', 'CIV', 1, 342, 1, 'Guiberoua', 0, 1, NULL, 'professeur de physique', 'professeur', '07890098', NULL, NULL, NULL, 'gnekpanorbert@gmail.com', 'Soro', 1, 'Dekpa Norbert', '78090980', 'Dion', 'CIV', '', 'Nathalie', NULL, 'OUI', 'GNEKPA', 'Phillipe', 'C 089 4563 45', 'CIV', '', 1, 6, 1, 71, 1, 'C 7867 9800 56', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(48, 'CRCI-2020-C76-48', '', '', 'Mr', '', 'SORI', 'Abdoulaye', '1976-08-12', 'CIV', 'CAN', 1, 6, 1, 'dallas', NULL, 3, NULL, 'LOGISTICIEN', 'LOGISTIQUE', '09889000', '58900676', NULL, NULL, 'djamara@gmail.com', 'COULIBALY', 1, 'MORI', '59 58 74 59', 'DJABATE', 'CIV', '', 'ALIMA', NULL, 'oui', 'SORO', 'YENEMA', 'COUL01-15-00113517I', 'CIV', '', 1, NULL, 1, 76, 1, 'C 9067 4236', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(47, 'CRCI-2020-C79-47', '', '', 'Mr', '', 'COULIBALY', 'IDRISSA', '1979-03-12', 'CIV', 'CIV', 1, 8, 1, 'A l\'hopital général de marcory', 0, 1, NULL, 'LOGISTICIEN', 'LOGISTIQUE', '49 70 68 93', '49 70 68 93', NULL, NULL, 'idyckool@yahoo.fr', 'COULIBALY', 1, 'IDRISSA', '59 58 74 59', 'DJABATE', 'CIV', 'decede', 'ALIMA', NULL, 'OUI', 'COULIBALY', 'ZIE', 'PERMIS-RTD-2012', 'CIV', '', 1, 4, 1, 79, 1, 'C 0040 1883 97', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(49, 'CRCI-2020-C79-49', '', '', 'Mr', '', 'Ahou', 'Jean Oscar', '1980-09-08', 'CIV', 'CIV', 1, 1, 1, 'CHR de cocody', NULL, 8, NULL, 'gerant de vitrine pour verre pharmaceutique', 'ophtamologue', '05385555', NULL, NULL, NULL, NULL, 'N\'guessan', 1, 'Alfred', '09566520', 'TOE BI', 'CIV', '', 'Yvette', NULL, 'OUI', 'AHUA', 'Raymond', 'AZERTY', 'CIV', '', 1, 1, 1, 79, 1, 'C-026399', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(50, 'CRCI-2020-C79-50', '', '', 'Mr', '', 'Daleba', 'Ehouan Kakou Joel', '1976-03-17', 'CIV', 'CIV', 530, 551, 1, NULL, 1, 5, 'asthmatique au bas âge , problème respiratoire survenu dans le passé', 'responsable d\'usine, tous travaux d\'électricité', 'informaticien industriel', '02130414', '47607760', NULL, NULL, 'dalebajoel@yahoo.fr', 'Mme Daleba née Djoudjo', 1, 'Srè Georgette', '78099009', 'Kakou', 'CIV', 'decede', 'Emilie', NULL, 'OUI', 'Daleba', 'Salif', '2012CDY3277211', 'CIV', 'decede', 1, 6, 6, 79, 1, 'C 9870 6573 98', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(83, 'CRCI-2021--0001', '', '', 'Mlle', '', 'SINIKAN', 'AMON JOSELINE', '1983-10-08', 'CIV', 'CIV', 33, 745, 1, 'Centre de santé communautaire de AHUA', NULL, 5, NULL, 'GRH à SEMINAN ASSURANCE', 'ressources humaines', '0708008934', '0708008934', NULL, NULL, 'joseline.s@gmail.com', 'KOUAME', 1, 'ARISTIDE', NULL, 'BLEON', 'CIV', '', 'PAULINE', NULL, 'oui', 'SINANKAN', 'YACINTHE', 'PERMIS-00009', 'CIV', '', 1, NULL, 3, 79, 1, 'C 0132 4574 78', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(5, 'CRCI/2020/1/4', '', '', 'Mr', '', 'Aka', 'Fabrice', '1985-04-11', 'CIV', NULL, 1, 5, 1, NULL, NULL, 6, 'asthme', 'proprietaire gerant de pharmacie', 'pharmacienne', '45000054', '03030030', NULL, NULL, 'akal@gmail.com', 'N\'guessan', 1, 'Augustin', '04120020', 'NON', '0', NULL, 'NON', '04120020', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 3, 1, 2, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(11, 'CRCI/2020/C1/11', '', '', 'Mr', '', 'Ahoule', 'Aka leandre', '1996-02-01', 'FRA', NULL, 1, 1, 1, NULL, NULL, 8, 'asthme', 'responsable finance', 'pharmacienne', '45263626', NULL, NULL, NULL, 'ahou@gmail.com', 'Djamara', 1, 'Edjuhe Cyrille', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(12, 'CRCI/2020/C1/12', '', '', 'Mlle', '', 'Sidibe', 'Salimata', '1991-04-11', 'CIV', 'CIV', 2, 5, 1, NULL, NULL, 1, NULL, 'controle de gestion', 'pharmacienne', '57000075', NULL, NULL, NULL, 'sidibesali@gmail.com', 'Kante', 1, 'Fatoumata', '01014395', 'NON', '0', NULL, 'NON', '01014395', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 3, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(15, 'CRCI/2020/C1/15', '', '', 'Mr', '', 'N\'cho', 'Aka leandre', '1854-04-10', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'doctorant en mathematique', '45263626', NULL, NULL, NULL, 'akal@gmail.com', 'Djamara', 1, 'Edjuhe Cyrille', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 0, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(17, 'CRCI/2020/C1/17', '', '', 'Mr', '', 'Djamara', 'Edjuhe Cyrille', '1986-04-10', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'doctorant en mathematique', '45263626', NULL, NULL, NULL, 'sienmarie@yahoo.fr', 'Djamara', 1, 'Edjuhe Cyrille', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 0, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(18, 'CRCI/2020/C1/18', '', '', 'Mr', '', 'Djamara', 'Edjuhe Cyrille', '1985-02-10', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'doctorant en mathematique', '45263626', NULL, NULL, NULL, 'mikimiki@gmail.com', 'Djamara', 1, 'Edjuhe Cyrille', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 0, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(19, 'CRCI/2020/C1/19', '', '', 'Mr', '', 'N\'cho', 'Aka leandre', '1985-04-10', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'gerant de vitrine pour verre pharmaceutique', 'doctorant en mathematique', '45263626', NULL, NULL, NULL, 'ahou@gmail.com', 'N\'guessan', 1, 'Jacquelline', '04120020', 'NON', '0', NULL, 'NON', '04120020', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(20, 'CRCI/2020/C1/20', '', '', 'Mr', '', 'Aka', 'Jean Marie', '2015-12-10', 'ABW', 'ABW', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'doctorant en mathematique', '45263626', '03030030', NULL, NULL, 'ahou@gmail.com', 'N\'guessan', 1, 'Augustin', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 0, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(21, 'CRCI/2020/C1/21', '', '', 'Mr', '', 'N\'cho', 'Edjuhe Cyrille', '1875-04-10', 'ALB', 'ARE', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'doctorant en mathematique', '45263626', NULL, NULL, NULL, 'ahou@gmail.com', 'N\'guessan', 1, 'Abou', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(22, 'CRCI/2020/C1/22', '', '', 'Mr', '', 'Aka', 'Fortune', '1985-12-05', 'AND', 'AGO', 1, 1, 1, NULL, NULL, 1, NULL, 'responsable finance', 'doctorant en mathematique', '45263626', NULL, NULL, NULL, 'ahou@gmail.com', 'Aloiui', 1, 'Cyrille', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(23, 'CRCI/2020/C1/23', '', '', 'Mr', '', 'Antoine', 'Gaspard', '1986-02-10', 'ITA', 'MLI', 1, 1, 1, NULL, NULL, 1, NULL, 'proprietaire gerant de pharmacie', 'chirurgien', '45263626', NULL, NULL, NULL, 'akal@gmail.com', 'Djamara', 1, 'Edjuhe Cyrille', '41256300', 'NON', '0', NULL, 'NON', '41256300', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(7, 'CRCI/2020/C1/6', '', '', 'Mr', '', 'Sery', 'Oscar', '1986-04-11', 'FRA', NULL, 1, 1, 1, NULL, NULL, 1, NULL, 'professeur du privé', 'doctorant en mathematique', '54001221', NULL, NULL, NULL, 'oscarsery@gmail.com', 'ahou', 1, 'Gislene', '01014395', 'NON', '0', NULL, 'NON', '01014395', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 2, 1, 2, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(10, 'CRCI/2020/C1/8', '', '', 'Mr', '', 'alexou', 'Jean leandre', '1986-04-10', 'ABW', NULL, 1, 1, 1, NULL, NULL, 1, NULL, 'gerant de vitrine pour verre pharmaceutique', 'chirurgien', '57000075', NULL, NULL, NULL, '123@gmail.com', 'N\'guessan', 1, 'Edjuhe Cyrille', '04120020', 'NON', '0', NULL, 'NON', '04120020', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 1, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(13, 'CRCI/2020/C21/13', '', '', 'Mr', '', 'Attebi', 'Zeriga Alphonse', '1959-03-14', 'CIV', 'CIV', 229, 1, 1, NULL, NULL, 31, NULL, 'jardinier', 'jardinerie', '03781898', NULL, NULL, NULL, NULL, 'Ehouman', 1, 'Janine', '45051050', 'NON', '0', NULL, 'NON', '45051050', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 1, 1, 12, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(6, 'CRCI/2020/C3/6', '', '', 'Mr', '', 'Kone', 'Cedric', '1986-02-19', 'MLI', NULL, 1, 1, 1, NULL, NULL, 1, NULL, 'professeur du privé', 'doctorant en mathematique', '45263626', NULL, NULL, NULL, 'konec@yahoo.fr', 'N\'guessan', 1, 'Augustin', '07950428', 'NON', '0', NULL, 'NON', '07950428', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 2, 1, 3, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(14, 'CRCI/2020/C46/14', '', '', 'Mr', '', 'Kambire', 'Ollo Martial', '1985-07-10', 'CIV', 'BFA', 469, 473, 1, NULL, NULL, 165, NULL, 'enseignant repetiteur', 'etudiant', '07008575', NULL, NULL, NULL, NULL, 'Fransou', 1, 'Jacquelline', '41003202', 'NON', '0', NULL, 'NON', '41003202', NULL, 'NON', 'NON', 'NON', '0', NULL, 3, 2, 1, 46, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(73, 'DREPANOLE', 'F-3256', 'NON', 'Mr', '', 'SYLLA', 'MOCTAR', '1985-01-11', 'CIV', 'CIV', 14, 22, 1, NULL, 0, 27, NULL, NULL, NULL, '02345677', NULL, NULL, NULL, 'riendetout@gmail.com', 'ACEBO', 1, 'HERMAN', '67870007', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 28, 1, 80, 1, 'C 0890 0678 57', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(69, 'DRETINAZ', 'F-7678 7809 5', 'NON', 'Mr', '', 'AHOU', 'JEANNE', '1987-02-10', 'CIV', 'CIV', 5, 0, 1, NULL, 1, 9, NULL, NULL, NULL, '06789800', NULL, NULL, NULL, NULL, 'GBAPE', 1, 'BEATRICE', '45678798', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 6, 1, 80, 1, 'C 0988 6456 00', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(3, 'L0DER21', '', '', 'Mlle', '', 'Abla', 'Poukou Enriette', '1984-04-11', 'CIV', NULL, 1, 1, 1, NULL, NULL, 1, 'asthme', 'proprietaire gerant de pharmacie', 'pharmacienne', '57000075', NULL, NULL, NULL, 'ablapokou@gmail.com', 'N\'guessan', 1, 'Servais', '74859001', 'NON', '0', NULL, 'NON', '74859001', NULL, 'NON', 'NON', 'NON', '0', NULL, 1, 3, 1, 2, 1, 'C 0012 5435 89', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(76, 'sqsedrf', 'derf', 'NON', 'Mr', '', 'SEKA', 'BORIS', '1975-08-09', 'CIV', 'CIV', 19, 14, 1, NULL, 0, 20, NULL, NULL, NULL, '02897866', NULL, NULL, NULL, NULL, 'ATTIEGBA', 1, 'JEAN FIRMIN', '85678876', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 3, 1, 1, 80, 1, 'C 8756 2345 1', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26'),
+	(82, 'XX-TRE-0098', 'F-23142', 'NON', 'Mr', '', 'CHAKA', 'ZULU', '1989-11-09', 'CIV', 'CIV', 1, 18, 1, NULL, 1, 23, NULL, NULL, NULL, '08765645', NULL, NULL, NULL, NULL, 'KABLAN', 1, 'DUMAS', '67873456', NULL, 'CIV', '', NULL, NULL, 'NON', NULL, NULL, '', 'CIV', '', 1, 47, 1, 80, 1, 'C 8978 5687 9', NULL, NULL, NULL, NULL, 1, '2021-05-30 20:24:26', '2021-05-30 20:24:26');
 /*!40000 ALTER TABLE `personne` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. personne_affection
-DROP TABLE IF EXISTS `personne_affection`;
 CREATE TABLE IF NOT EXISTS `personne_affection` (
-  `id_personne_affection` int(11) NOT NULL AUTO_INCREMENT,
+  `id_personne_affection` int NOT NULL AUTO_INCREMENT,
   `personneImmat` varchar(150) DEFAULT NULL,
-  `idaffection` int(10) DEFAULT NULL,
+  `idaffection` int DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id_personne_affection`),
@@ -2127,10 +2095,9 @@ CREATE TABLE IF NOT EXISTS `personne_affection` (
   KEY `FK_personne_affection_affection` (`idaffection`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
--- Listage des données de la table croixrouge2021.personne_affection : ~4 rows (environ)
-DELETE FROM `personne_affection`;
+-- Listage des données de la table croixrouge2021.personne_affection : ~5 rows (environ)
 /*!40000 ALTER TABLE `personne_affection` DISABLE KEYS */;
-INSERT INTO `personne_affection` (`id_personne_affection`, `personneImmat`, `idaffection`, `updated_at`, `created_at`) VALUES
+REPLACE INTO `personne_affection` (`id_personne_affection`, `personneImmat`, `idaffection`, `updated_at`, `created_at`) VALUES
 	(1, 'L0DER21', 1, '2020-04-18 22:19:43', '2020-04-18 22:19:43'),
 	(2, 'L0DER21', 1, '2020-04-19 08:37:59', '2020-04-19 08:37:59'),
 	(3, 'CRCI/2020/C1/11', 1, '2020-04-19 17:18:51', '2020-04-19 17:18:51'),
@@ -2139,22 +2106,20 @@ INSERT INTO `personne_affection` (`id_personne_affection`, `personneImmat`, `ida
 /*!40000 ALTER TABLE `personne_affection` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. personne_categoriepermis
-DROP TABLE IF EXISTS `personne_categoriepermis`;
 CREATE TABLE IF NOT EXISTS `personne_categoriepermis` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `personne_immat` varchar(450) DEFAULT NULL,
-  `idcategorie` int(11) DEFAULT NULL,
+  `idcategorie` int DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `personne_immat` (`personne_immat`(255)),
   KEY `idcategorie` (`idcategorie`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.personne_categoriepermis : ~19 rows (environ)
-DELETE FROM `personne_categoriepermis`;
 /*!40000 ALTER TABLE `personne_categoriepermis` DISABLE KEYS */;
-INSERT INTO `personne_categoriepermis` (`id`, `personne_immat`, `idcategorie`, `updated_at`, `created_at`) VALUES
+REPLACE INTO `personne_categoriepermis` (`id`, `personne_immat`, `idcategorie`, `updated_at`, `created_at`) VALUES
 	(1, 'CRCI-2020-C2-46', 2, '2020-09-29 10:23:19', '2020-09-29 10:23:19'),
 	(2, 'CRCI-2020-C2-46', 4, '2020-09-29 10:23:19', '2020-09-29 10:23:19'),
 	(3, 'CRCI-2020-C2-46', 5, '2020-09-29 10:23:19', '2020-09-29 10:23:19'),
@@ -2173,15 +2138,17 @@ INSERT INTO `personne_categoriepermis` (`id`, `personne_immat`, `idcategorie`, `
 	(16, NULL, 4, '2020-12-12 18:42:58', '2020-12-12 18:42:58'),
 	(17, 'CRCI-2008-34-00897', 2, '2020-12-14 15:29:31', '2020-12-14 15:29:31'),
 	(18, 'CRCI-2008-34-00897', 4, '2020-12-14 15:29:31', '2020-12-14 15:29:31'),
-	(19, 'CRCI-2008-34-00897', 5, '2020-12-14 15:29:31', '2020-12-14 15:29:31');
+	(19, 'CRCI-2008-34-00897', 5, '2020-12-14 15:29:31', '2020-12-14 15:29:31'),
+	(20, 'CRCI-2020-C30-00897', 2, '2021-05-28 18:49:25', '2021-05-28 18:49:25'),
+	(21, 'CRCI-2020-C30-00897', 3, '2021-05-28 18:49:25', '2021-05-28 18:49:25'),
+	(22, 'CRCI-2020-C30-00897', 4, '2021-05-28 18:49:25', '2021-05-28 18:49:25');
 /*!40000 ALTER TABLE `personne_categoriepermis` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. personne_diplome
-DROP TABLE IF EXISTS `personne_diplome`;
 CREATE TABLE IF NOT EXISTS `personne_diplome` (
-  `idPersonneDiplome` int(11) NOT NULL AUTO_INCREMENT,
+  `idPersonneDiplome` int NOT NULL AUTO_INCREMENT,
   `persImmat` varchar(150) NOT NULL DEFAULT '',
-  `diplome_iddiplome` int(11) NOT NULL,
+  `diplome_iddiplome` int NOT NULL,
   `personne_diplome_date` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   `created_at` date DEFAULT NULL,
@@ -2190,13 +2157,12 @@ CREATE TABLE IF NOT EXISTS `personne_diplome` (
   KEY `fk_personne_has_diplome_personne1_idx` (`persImmat`),
   KEY `idPersonneDiplome` (`idPersonneDiplome`),
   CONSTRAINT `FK_personne_diplome_personne` FOREIGN KEY (`persImmat`) REFERENCES `personne` (`personne_immat`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_personne_has_diplome_diplome1` FOREIGN KEY (`diplome_iddiplome`) REFERENCES `diplome` (`iddiplome`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=249 DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_personne_has_diplome_diplome1` FOREIGN KEY (`diplome_iddiplome`) REFERENCES `diplome` (`iddiplome`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=258 DEFAULT CHARSET=utf8;
 
--- Listage des données de la table croixrouge2021.personne_diplome : ~144 rows (environ)
-DELETE FROM `personne_diplome`;
+-- Listage des données de la table croixrouge2021.personne_diplome : ~150 rows (environ)
 /*!40000 ALTER TABLE `personne_diplome` DISABLE KEYS */;
-INSERT INTO `personne_diplome` (`idPersonneDiplome`, `persImmat`, `diplome_iddiplome`, `personne_diplome_date`, `updated_at`, `created_at`) VALUES
+REPLACE INTO `personne_diplome` (`idPersonneDiplome`, `persImmat`, `diplome_iddiplome`, `personne_diplome_date`, `updated_at`, `created_at`) VALUES
 	(212, '00007567', 2, NULL, '2020-12-15', '2020-12-15'),
 	(213, '00007567', 3, NULL, '2020-12-15', '2020-12-15'),
 	(214, '00007567', 5, NULL, '2020-12-15', '2020-12-15'),
@@ -2225,6 +2191,10 @@ INSERT INTO `personne_diplome` (`idPersonneDiplome`, `persImmat`, `diplome_iddip
 	(187, 'AZERTYUIOP', 3, NULL, '2020-12-15', '2020-12-15'),
 	(188, 'AZERTYUIOP', 5, NULL, '2020-12-15', '2020-12-15'),
 	(189, 'AZERTYUIOP', 6, NULL, '2020-12-15', '2020-12-15'),
+	(254, 'CRCI 2020 C67 2435', 1, NULL, '2021-06-06', '2021-06-06'),
+	(255, 'CRCI 2020 C67 2435', 2, NULL, '2021-06-06', '2021-06-06'),
+	(256, 'CRCI 2020 C67 2435', 3, NULL, '2021-06-06', '2021-06-06'),
+	(257, 'CRCI 2020 C67 2435', 6, NULL, '2021-06-06', '2021-06-06'),
 	(222, 'CRCI-1978-56-000067', 5, NULL, '2020-12-15', '2020-12-15'),
 	(223, 'CRCI-1978-56-000067', 6, NULL, '2020-12-15', '2020-12-15'),
 	(224, 'CRCI-1980-5-00089', 3, NULL, '2020-12-15', '2020-12-15'),
@@ -2284,6 +2254,11 @@ INSERT INTO `personne_diplome` (`idPersonneDiplome`, `persImmat`, `diplome_iddip
 	(106, 'CRCI-2020-C3-56', 3, NULL, '2020-12-09', '2020-12-09'),
 	(107, 'CRCI-2020-C3-56', 5, NULL, '2020-12-09', '2020-12-09'),
 	(108, 'CRCI-2020-C3-56', 7, NULL, '2020-12-09', '2020-12-09'),
+	(249, 'CRCI-2020-C30-00897', 1, NULL, '2021-05-28', '2021-05-28'),
+	(250, 'CRCI-2020-C30-00897', 2, NULL, '2021-05-28', '2021-05-28'),
+	(251, 'CRCI-2020-C30-00897', 3, NULL, '2021-05-28', '2021-05-28'),
+	(252, 'CRCI-2020-C30-00897', 4, NULL, '2021-05-28', '2021-05-28'),
+	(253, 'CRCI-2020-C30-00897', 5, NULL, '2021-05-28', '2021-05-28'),
 	(144, 'CRCI-2020-C34-0001', 2, NULL, '2020-12-14', '2020-12-14'),
 	(145, 'CRCI-2020-C34-0001', 3, NULL, '2020-12-14', '2020-12-14'),
 	(146, 'CRCI-2020-C34-0001', 4, NULL, '2020-12-14', '2020-12-14'),
@@ -2350,11 +2325,10 @@ INSERT INTO `personne_diplome` (`idPersonneDiplome`, `persImmat`, `diplome_iddip
 /*!40000 ALTER TABLE `personne_diplome` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. personne_privilege
-DROP TABLE IF EXISTS `personne_privilege`;
 CREATE TABLE IF NOT EXISTS `personne_privilege` (
-  `idPersonne_privilege` int(11) NOT NULL AUTO_INCREMENT,
+  `idPersonne_privilege` int NOT NULL AUTO_INCREMENT,
   `PersImmat` varchar(500) DEFAULT NULL,
-  `idPrivilege` int(11) DEFAULT NULL,
+  `idPrivilege` int DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`idPersonne_privilege`),
@@ -2365,9 +2339,8 @@ CREATE TABLE IF NOT EXISTS `personne_privilege` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.personne_privilege : ~8 rows (environ)
-DELETE FROM `personne_privilege`;
 /*!40000 ALTER TABLE `personne_privilege` DISABLE KEYS */;
-INSERT INTO `personne_privilege` (`idPersonne_privilege`, `PersImmat`, `idPrivilege`, `created_at`, `updated_at`) VALUES
+REPLACE INTO `personne_privilege` (`idPersonne_privilege`, `PersImmat`, `idPrivilege`, `created_at`, `updated_at`) VALUES
 	(1, 'CRCI-2020-C79-50', 1, '2020-10-08 15:40:23', '2020-10-08 15:40:23'),
 	(2, 'CRCI-2020-C79-50', 2, '2020-10-08 15:40:23', '2020-10-08 15:40:23'),
 	(3, 'CRCI-2020-C79-50', 3, '2020-10-08 15:40:23', '2020-10-08 15:40:23'),
@@ -2379,21 +2352,19 @@ INSERT INTO `personne_privilege` (`idPersonne_privilege`, `PersImmat`, `idPrivil
 /*!40000 ALTER TABLE `personne_privilege` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. privilege
-DROP TABLE IF EXISTS `privilege`;
 CREATE TABLE IF NOT EXISTS `privilege` (
-  `idPrivilege` int(11) NOT NULL AUTO_INCREMENT,
+  `idPrivilege` int NOT NULL AUTO_INCREMENT,
   `privilege_libelle` varchar(500) NOT NULL,
-  `idmodule` int(11) NOT NULL DEFAULT 0,
-  `Topactif` int(1) NOT NULL DEFAULT 1,
+  `idmodule` int NOT NULL DEFAULT '0',
+  `Topactif` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`idPrivilege`),
   KEY `idmodule` (`idmodule`),
   CONSTRAINT `FK_privilege_module` FOREIGN KEY (`idmodule`) REFERENCES `module` (`idModule`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.privilege : ~8 rows (environ)
-DELETE FROM `privilege`;
 /*!40000 ALTER TABLE `privilege` DISABLE KEYS */;
-INSERT INTO `privilege` (`idPrivilege`, `privilege_libelle`, `idmodule`, `Topactif`) VALUES
+REPLACE INTO `privilege` (`idPrivilege`, `privilege_libelle`, `idmodule`, `Topactif`) VALUES
 	(1, 'Enregistrer un volontaire', 1, 1),
 	(2, 'Modifier un volontaire', 1, 1),
 	(3, 'Supprimer un volontaire', 1, 1),
@@ -2405,31 +2376,27 @@ INSERT INTO `privilege` (`idPrivilege`, `privilege_libelle`, `idmodule`, `Topact
 /*!40000 ALTER TABLE `privilege` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. privileges
-DROP TABLE IF EXISTS `privileges`;
 CREATE TABLE IF NOT EXISTS `privileges` (
-  `idprivilege` int(11) NOT NULL AUTO_INCREMENT,
+  `idprivilege` int NOT NULL AUTO_INCREMENT,
   `privilegeLibelle` varchar(250) DEFAULT NULL,
-  `privilegeActiv` int(11) DEFAULT NULL COMMENT 'activer les privilege 1 activ et 0 inactiv',
+  `privilegeActiv` int DEFAULT NULL COMMENT 'activer les privilege 1 activ et 0 inactiv',
   PRIMARY KEY (`idprivilege`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.privileges : ~0 rows (environ)
-DELETE FROM `privileges`;
 /*!40000 ALTER TABLE `privileges` DISABLE KEYS */;
 /*!40000 ALTER TABLE `privileges` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. profession
-DROP TABLE IF EXISTS `profession`;
 CREATE TABLE IF NOT EXISTS `profession` (
-  `idprofession` int(11) NOT NULL AUTO_INCREMENT,
+  `idprofession` int NOT NULL AUTO_INCREMENT,
   `profession_libelle` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`idprofession`)
 ) ENGINE=InnoDB AUTO_INCREMENT=289 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.profession : ~288 rows (environ)
-DELETE FROM `profession`;
 /*!40000 ALTER TABLE `profession` DISABLE KEYS */;
-INSERT INTO `profession` (`idprofession`, `profession_libelle`) VALUES
+REPLACE INTO `profession` (`idprofession`, `profession_libelle`) VALUES
 	(1, 'Comptable'),
 	(2, 'Etudiant'),
 	(3, 'Medecin'),
@@ -2721,68 +2688,60 @@ INSERT INTO `profession` (`idprofession`, `profession_libelle`) VALUES
 /*!40000 ALTER TABLE `profession` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. profil
-DROP TABLE IF EXISTS `profil`;
 CREATE TABLE IF NOT EXISTS `profil` (
-  `idprofil` int(11) NOT NULL AUTO_INCREMENT,
+  `idprofil` int NOT NULL AUTO_INCREMENT,
   `profil_libelle` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`idprofil`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.profil : ~2 rows (environ)
-DELETE FROM `profil`;
 /*!40000 ALTER TABLE `profil` DISABLE KEYS */;
-INSERT INTO `profil` (`idprofil`, `profil_libelle`) VALUES
+REPLACE INTO `profil` (`idprofil`, `profil_libelle`) VALUES
 	(1, 'actif'),
 	(2, 'inactif');
 /*!40000 ALTER TABLE `profil` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. sessions
-DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE IF NOT EXISTS `sessions` (
   `id` varchar(255) NOT NULL,
-  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `user_id` bigint unsigned DEFAULT NULL,
   `ip_address` varchar(45) DEFAULT NULL,
-  `user_agent` text DEFAULT NULL,
+  `user_agent` text,
   `payload` text NOT NULL,
-  `last_activity` int(11) NOT NULL,
+  `last_activity` int NOT NULL,
   UNIQUE KEY `sessions_id_unique` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.sessions : ~0 rows (environ)
-DELETE FROM `sessions`;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. situation_matrimoniale
-DROP TABLE IF EXISTS `situation_matrimoniale`;
 CREATE TABLE IF NOT EXISTS `situation_matrimoniale` (
-  `idSitMat` int(11) NOT NULL AUTO_INCREMENT,
+  `idSitMat` int NOT NULL AUTO_INCREMENT,
   `libelle_SitMat` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`idSitMat`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.situation_matrimoniale : ~3 rows (environ)
-DELETE FROM `situation_matrimoniale`;
 /*!40000 ALTER TABLE `situation_matrimoniale` DISABLE KEYS */;
-INSERT INTO `situation_matrimoniale` (`idSitMat`, `libelle_SitMat`) VALUES
-	(1, 'Celibataire'),
-	(2, 'Marié(e)'),
-	(3, 'Veuf(ve)');
+REPLACE INTO `situation_matrimoniale` (`idSitMat`, `libelle_SitMat`) VALUES
+	(0, 'Celibataire'),
+	(1, 'Marié(e)'),
+	(2, 'Veuf(ve)');
 /*!40000 ALTER TABLE `situation_matrimoniale` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. typepiece
-DROP TABLE IF EXISTS `typepiece`;
 CREATE TABLE IF NOT EXISTS `typepiece` (
-  `idTypePiece` int(11) NOT NULL AUTO_INCREMENT,
+  `idTypePiece` int NOT NULL AUTO_INCREMENT,
   `libelleTypePiece` varchar(150) NOT NULL DEFAULT '',
   PRIMARY KEY (`idTypePiece`),
   KEY `idTypePiece` (`idTypePiece`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.typepiece : ~4 rows (environ)
-DELETE FROM `typepiece`;
 /*!40000 ALTER TABLE `typepiece` DISABLE KEYS */;
-INSERT INTO `typepiece` (`idTypePiece`, `libelleTypePiece`) VALUES
+REPLACE INTO `typepiece` (`idTypePiece`, `libelleTypePiece`) VALUES
 	(1, 'CNI'),
 	(2, 'PASSEPORT'),
 	(3, 'ATTESTATION D\'IDENTITE'),
@@ -2790,28 +2749,26 @@ INSERT INTO `typepiece` (`idTypePiece`, `libelleTypePiece`) VALUES
 /*!40000 ALTER TABLE `typepiece` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. users
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
-  `idUsers` int(11) NOT NULL AUTO_INCREMENT,
+  `idUsers` int NOT NULL AUTO_INCREMENT,
   `persImmat` varchar(255) DEFAULT NULL,
   `login` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `passdecode` varchar(255) DEFAULT NULL,
-  `login_verified_at` datetime DEFAULT current_timestamp(),
+  `login_verified_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `active` int(11) DEFAULT 0,
-  `status` int(11) DEFAULT 0 COMMENT '0 deconnecté , 1 connecté',
+  `active` int DEFAULT '0',
+  `status` int DEFAULT '0' COMMENT '0 deconnecté , 1 connecté',
   PRIMARY KEY (`idUsers`),
   KEY `persImmat` (`persImmat`),
-  CONSTRAINT `FK_users_personne` FOREIGN KEY (`persImmat`) REFERENCES `personne` (`personne_immat`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `FK_users_personne` FOREIGN KEY (`persImmat`) REFERENCES `personne` (`personne_immat`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table croixrouge2021.users : ~6 rows (environ)
-DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`idUsers`, `persImmat`, `login`, `password`, `passdecode`, `login_verified_at`, `remember_token`, `created_at`, `updated_at`, `active`, `status`) VALUES
+REPLACE INTO `users` (`idUsers`, `persImmat`, `login`, `password`, `passdecode`, `login_verified_at`, `remember_token`, `created_at`, `updated_at`, `active`, `status`) VALUES
 	(1, 'CRCI-2020-C1-16', 'miki225', '$2y$10$ZlDi2h1ycjx/8.eJUxSUdu3Eo0cJna8PnDp2RCirbfmOmNNBtqaGa', '987654321', NULL, NULL, NULL, '2020-12-14 08:20:41', 1, 0),
 	(2, 'CRCI-2020-C79-50', 'lemains', '$2y$10$JrGY7JWmN3/Zh8PRcGijR.62jfttBPynucZDtfmsJ8RdOjQsoZt46', NULL, '2020-10-08 15:40:23', NULL, '2020-10-08 15:40:23', '2020-12-09 10:18:18', 1, 0),
 	(10, 'CRCI-2020-C1-34', 'lovalova', '$2y$10$mB9dt3.extByLI1YGie6JeWIuHTdyMQm02oeoHa6Yvrl4quT7Ky.e', 'bonjourlova', '2020-12-09 10:33:01', NULL, '2020-12-09 10:33:01', '2020-12-09 12:05:40', 1, 0),
@@ -2821,41 +2778,37 @@ INSERT INTO `users` (`idUsers`, `persImmat`, `login`, `password`, `passdecode`, 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. ville
-DROP TABLE IF EXISTS `ville`;
 CREATE TABLE IF NOT EXISTS `ville` (
-  `idville` int(11) NOT NULL AUTO_INCREMENT,
+  `idville` int NOT NULL AUTO_INCREMENT,
   `ville_libelle` varchar(150) DEFAULT NULL,
-  `pays_idpays` int(11) NOT NULL,
+  `pays_idpays` int NOT NULL,
   PRIMARY KEY (`idville`),
   KEY `fk_ville_pays1_idx` (`pays_idpays`),
-  CONSTRAINT `fk_ville_pays1` FOREIGN KEY (`pays_idpays`) REFERENCES `pays` (`idpays`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_ville_pays1` FOREIGN KEY (`pays_idpays`) REFERENCES `pays` (`idpays`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Listage des données de la table croixrouge2021.ville : ~1 rows (environ)
-DELETE FROM `ville`;
+-- Listage des données de la table croixrouge2021.ville : ~0 rows (environ)
 /*!40000 ALTER TABLE `ville` DISABLE KEYS */;
-INSERT INTO `ville` (`idville`, `ville_libelle`, `pays_idpays`) VALUES
+REPLACE INTO `ville` (`idville`, `ville_libelle`, `pays_idpays`) VALUES
 	(1, 'Abidjan', 1);
 /*!40000 ALTER TABLE `ville` ENABLE KEYS */;
 
 -- Listage de la structure de la table croixrouge2021. villes
-DROP TABLE IF EXISTS `villes`;
 CREATE TABLE IF NOT EXISTS `villes` (
   `PAYS_CODE` varchar(3) NOT NULL,
-  `VIL_IDENTIFIANT` int(11) NOT NULL,
+  `VIL_IDENTIFIANT` int NOT NULL,
   `VIL_NOM` varchar(250) NOT NULL,
   `VIL_ABREV` varchar(250) DEFAULT NULL,
   `VIL_FORMAT_RCCM` varchar(20) DEFAULT NULL,
-  `VIL_TOP_VIGUEUR` int(1) DEFAULT 0 COMMENT '0= en vigueur; 1=supprimé',
+  `VIL_TOP_VIGUEUR` int DEFAULT '0' COMMENT '0= en vigueur; 1=supprimé',
   PRIMARY KEY (`VIL_IDENTIFIANT`),
   KEY `PAYS_CODE` (`PAYS_CODE`),
   CONSTRAINT `FK_villes_pays_nationalite` FOREIGN KEY (`PAYS_CODE`) REFERENCES `pays_nationalite` (`PAYS_CODE`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Listage des données de la table croixrouge2021.villes : ~1 242 rows (environ)
-DELETE FROM `villes`;
+-- Listage des données de la table croixrouge2021.villes : ~1 243 rows (environ)
 /*!40000 ALTER TABLE `villes` DISABLE KEYS */;
-INSERT INTO `villes` (`PAYS_CODE`, `VIL_IDENTIFIANT`, `VIL_NOM`, `VIL_ABREV`, `VIL_FORMAT_RCCM`, `VIL_TOP_VIGUEUR`) VALUES
+REPLACE INTO `villes` (`PAYS_CODE`, `VIL_IDENTIFIANT`, `VIL_NOM`, `VIL_ABREV`, `VIL_FORMAT_RCCM`, `VIL_TOP_VIGUEUR`) VALUES
 	('CIV', 1, 'Abidjan', 'ABJ', 'CI-ABJ', 0),
 	('CIV', 2, 'Abengourou', 'ABG', 'CI-ABG', 0),
 	('CIV', 3, 'Abiaty', 'ATY', NULL, 0),
