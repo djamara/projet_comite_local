@@ -29,6 +29,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
 
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 </head>
 <body style="background-color: #666666;">
 
@@ -43,14 +45,14 @@
 
 
 					<div class="wrap-input100 ">
-						<input class="input100" type="text" name="login" required>
+						<input class="input100" type="text" name="login" id="login" required>
 						<span class="focus-input100"></span>
 						<span class="label-input100">Login</span>
 					</div>
 
 
 					<div class="wrap-input100">
-						<input class="input100" type="password" name="password" required>
+						<input class="input100" type="password" name="password" id="password" required>
 						<span class="focus-input100"></span>
 						<span class="label-input100">Mot de passe</span>
 					</div>
@@ -72,7 +74,7 @@
 
 
 					<div class="container-login100-form-btn">
-						<button class="btn bg-danger login100-form-btn" id="btnValideLogin">
+						<button class="btn bg-danger login100-form-btn" type="submit" id="btnValideLogin">
 							Login
 						</button>
 					</div>

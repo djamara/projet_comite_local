@@ -1,21 +1,6 @@
 $(function (){
 
-    /*$.confirm({
-        title: 'Oupsss !!',
-        content: 'Une erreur est survenue lors de la sauvegarde, veuillez contactez l\'administrateur',
-        theme:'material',
-        type: 'red',
-        typeAnimated: true,
-        buttons: {
-            Oui: {
-                text: 'OK',
-                btnClass: 'btn-red',
-                action: function(){
-                }
-            }
-        }
-    });*/
-    
+       
     //$("#formLogin").bootstrapValidator();
 
     $('#formLogin').submit(function (e){
@@ -51,25 +36,30 @@ function login(){
         //dataType: 'JSON',
         success: function (data) {
             if(data == "success"){
+                swal({
+                    title: "Succès",
+                    text: "Vous êtes connectés, bienvenue sur notre plateforme !",
+                    icon: "success",
+                    button: "Ok!",
+                  }).then(()=>{
+                        window.location.href = '/menu';
+                  });
+            }else{
+                $('#login').val("");
+                $('#password').val("");
+                
                 $.confirm({
-                    title: 'Succès',
-                    content: 'Votre saisie a été bien sauvegardé, voulez vous effectuer une autre saisie ?',
+                    title: 'Echec',
+                    content: 'La connexion a échoué, veuillez verifier vos accès',
                     theme:'material',
                     type: 'red',
                     typeAnimated: true,
                     buttons: {
                         Oui: {
-                            text: 'Oui',
+                            text: 'OK',
                             btnClass: 'btn-red',
                             action: function(){
-                                window.location.href = '/menu';
-                            }
-                        },
-                        Non: {
-                            text: 'Non',
-                            btnClass: 'btn-gray',
-                            action: function(){
-                                window.location.href = '/menu';
+                                //window.location.href = '/menu';
                             }
                         }
                     }
@@ -80,7 +70,7 @@ function login(){
         error: function (e) {
             $.confirm({
                 title: 'Warning',
-                content: 'Une erreur est survenue lors de la sauvegarde, veuillez contactez l\'administrateur',
+                content: 'Une erreur est survenue lors du traitement, veuillez contactez l\'administrateur ou patienter pour réessayer plus tard',
                 theme:'material',
                 type: 'red',
                 typeAnimated: true,
