@@ -7,7 +7,7 @@
 //Recuperation des elements du formulaire
 $(document).ready(function () {
 
-    alert('je suis dans le bon fichier');
+    //alert('je suis dans le bon fichier');
 
     nom = $('#nom');
     prenom = $('#prenom');
